@@ -1,8 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, HeadContent } from "@tanstack/react-router";
 import { WorkItem } from "../../components/work-item";
 
 export const Route = createFileRoute("/_app/works")({
-  component: RouteComponent,
+  component: () => (
+    <>
+      <HeadContent />
+      <RouteComponent />
+    </>
+  ),
+  head: () => ({
+    links: [{ rel: "preload", href: "/works/typerace.png", as: "image" }],
+    // TODO: Does this work?
+  }),
 });
 
 function RouteComponent() {

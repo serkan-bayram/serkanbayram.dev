@@ -37,8 +37,8 @@ export function WorkItem({
 
         <div className="flex items-center justify-between pt-2">
           <div className="flex gap-x-2">
-            {repoLinks.map((repoLink) => (
-              <a target="_blank" href={repoLink}>
+            {repoLinks.map((repoLink, index) => (
+              <a key={index} target="_blank" href={repoLink}>
                 <GithubSvg fill="white" width={30} height={30} />
               </a>
             ))}
