@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowUpRightIcon } from "lucide-react";
+import { WorkItem } from "../../components/work-item";
 
 export const Route = createFileRoute("/_app/works")({
   component: RouteComponent,
@@ -8,32 +8,33 @@ export const Route = createFileRoute("/_app/works")({
 function RouteComponent() {
   return (
     <>
-      <div className="flex flex-col gap-y-8">
-        <h1 className="mx-auto p-12 text-4xl font-extrabold">Things I Built</h1>
-        <div className="flex justify-center">
-          <div className="flex flex-col">
-            <div className="flex flex-col gap-y-1">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold">TypeRace</h2>
-                <a
-                  className="text-accent hover:text-accent-light flex items-center transition-colors ease-in-out"
-                  href="https://typerace.serkanbayram.dev"
-                >
-                  Try Out
-                  <ArrowUpRightIcon className="h-4 w-4" />
-                </a>
-              </div>
-              <p className="max-w-prose">
-                A web application that you can create rooms and race with your
-                friends to see who types faster. ⌨️
-              </p>
-            </div>
-            <img
-              src="/works/typerace.png"
-              className="border-background-light mx-auto mt-8 rounded-lg border"
-            />
-          </div>
-        </div>
+      <div className="flex flex-col gap-y-14">
+        <h1 className="mx-auto p-12 pb-4 text-4xl font-extrabold">
+          Things I Built
+        </h1>
+
+        <WorkItem
+          name="TypeRace"
+          description="A web application that you can create rooms and race with your
+        friends to see who types faster. ⌨️"
+          link="https://typerace.serkanbayram.dev"
+          imageSource="/works/typerace.png"
+        />
+
+        <WorkItem
+          name="Editor"
+          description="Simple video editing should be simple: In this project, I tried to achive this. No backend required, thanks to FFmpeg WASM. ✏️"
+          link="https://editor.serkanbayram.dev"
+          imageSource="/works/editor.png"
+          status="in-progress"
+        />
+
+        <WorkItem
+          name="KVDB"
+          description="You can search and find any quotes from Kurtlar Vadisi through this website. 🎞️"
+          link="https://kvdb.serkanbayram.dev"
+          imageSource="/works/kvdb.png"
+        />
       </div>
     </>
   );

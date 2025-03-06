@@ -18,4 +18,6 @@
 
 html {
   color: var(--color-text);
+
+  color-scheme: dark light;
 }
