@@ -1,12 +1,6 @@
-export function GithubSvg({
-  fill,
-  width,
-  height,
-}: {
-  fill: string;
-  width: number;
-  height: number;
-}) {
+import { Svg } from "./linkedin-svg";
+
+export function GithubSvg({ fill, width, height }: Svg) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
