@@ -11,79 +11,104 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as AboutImport } from './routes/about'
-import { Route as homeIndexImport } from './routes/(home)/index'
+import { Route as AppImport } from './routes/_app'
+import { Route as AppIndexImport } from './routes/_app.index'
+import { Route as AppWorksImport } from './routes/_app.works'
 
 // Create/Update Routes
 
-const AboutRoute = AboutImport.update({
-  id: '/about',
-  path: '/about',
+const AppRoute = AppImport.update({
+  id: '/_app',
   getParentRoute: () => rootRoute,
 } as any)
 
-const homeIndexRoute = homeIndexImport.update({
-  id: '/(home)/',
+const AppIndexRoute = AppIndexImport.update({
+  id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppWorksRoute = AppWorksImport.update({
+  id: '/works',
+  path: '/works',
+  getParentRoute: () => AppRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AppImport
       parentRoute: typeof rootRoute
     }
-    '/(home)/': {
-      id: '/(home)/'
+    '/_app/works': {
+      id: '/_app/works'
+      path: '/works'
+      fullPath: '/works'
+      preLoaderRoute: typeof AppWorksImport
+      parentRoute: typeof AppImport
+    }
+    '/_app/': {
+      id: '/_app/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof homeIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AppIndexImport
+      parentRoute: typeof AppImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface AppRouteChildren {
+  AppWorksRoute: typeof AppWorksRoute
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppWorksRoute: AppWorksRoute,
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 export interface FileRoutesByFullPath {
-  '/about': typeof AboutRoute
-  '/': typeof homeIndexRoute
+  '': typeof AppRouteWithChildren
+  '/works': typeof AppWorksRoute
+  '/': typeof AppIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/about': typeof AboutRoute
-  '/': typeof homeIndexRoute
+  '/works': typeof AppWorksRoute
+  '/': typeof AppIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/about': typeof AboutRoute
-  '/(home)/': typeof homeIndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/_app/works': typeof AppWorksRoute
+  '/_app/': typeof AppIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/about' | '/'
+  fullPaths: '' | '/works' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/about' | '/'
-  id: '__root__' | '/about' | '/(home)/'
+  to: '/works' | '/'
+  id: '__root__' | '/_app' | '/_app/works' | '/_app/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  AboutRoute: typeof AboutRoute
-  homeIndexRoute: typeof homeIndexRoute
+  AppRoute: typeof AppRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  AboutRoute: AboutRoute,
-  homeIndexRoute: homeIndexRoute,
+  AppRoute: AppRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -96,15 +121,23 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/about",
-        "/(home)/"
+        "/_app"
       ]
     },
-    "/about": {
-      "filePath": "about.tsx"
+    "/_app": {
+      "filePath": "_app.tsx",
+      "children": [
+        "/_app/works",
+        "/_app/"
+      ]
     },
-    "/(home)/": {
-      "filePath": "(home)/index.tsx"
+    "/_app/works": {
+      "filePath": "_app.works.tsx",
+      "parent": "/_app"
+    },
+    "/_app/": {
+      "filePath": "_app.index.tsx",
+      "parent": "/_app"
     }
   }
 }
