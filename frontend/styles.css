@@ -19,5 +19,7 @@
 html {
   color: var(--color-text);
 
+  font-family: var(--font-default);
+
   color-scheme: dark light;
 }

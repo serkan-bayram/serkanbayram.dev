@@ -1,5 +1,6 @@
 import { ArrowUpRightIcon } from "lucide-react";
 import { WorkStatus } from "./work-status";
+import { GithubSvg } from "./github-svg";
 
 export type WorkStatus = "in-progress";
 
@@ -9,6 +10,7 @@ type WorkItem = {
   description: string;
   imageSource: string;
   status?: WorkStatus; // We can add more options later maybe
+  repoLinks?: string[];
 };
 
 export function WorkItem({
@@ -17,6 +19,7 @@ export function WorkItem({
   description,
   imageSource,
   status,
+  repoLinks = [],
 }: WorkItem) {
   return (
     <div className="flex justify-center">
@@ -32,11 +35,17 @@ export function WorkItem({
           className="border-background-light mx-auto mt-8 rounded-lg border"
         />
 
-        {status && (
-          <div className="mt-3 ml-auto">
-            <WorkStatus status={status} />
+        <div className="flex items-center justify-between pt-2">
+          <div className="flex gap-x-2">
+            {repoLinks.map((repoLink) => (
+              <a target="_blank" href={repoLink}>
+                <GithubSvg fill="white" width={30} height={30} />
+              </a>
+            ))}
           </div>
-        )}
+
+          {status && <WorkStatus status={status} />}
+        </div>
       </div>
     </div>
   );

@@ -19,6 +19,10 @@ function RouteComponent() {
         friends to see who types faster. ⌨️"
           link="https://typerace.serkanbayram.dev"
           imageSource="/works/typerace.png"
+          repoLinks={[
+            "https://github.com/serkan-bayram/type-race-frontend",
+            "https://github.com/serkan-bayram/type-race-backend",
+          ]}
         />
 
         <WorkItem
@@ -27,6 +31,7 @@ function RouteComponent() {
           link="https://editor.serkanbayram.dev"
           imageSource="/works/editor.png"
           status="in-progress"
+          repoLinks={["https://github.com/serkan-bayram/editor"]}
         />
 
         <WorkItem
@@ -34,6 +39,7 @@ function RouteComponent() {
           description="You can search and find any quotes from Kurtlar Vadisi through this website. 🎞️"
           link="https://kvdb.serkanbayram.dev"
           imageSource="/works/kvdb.png"
+          repoLinks={["https://github.com/serkan-bayram/kvdb"]}
         />
       </div>
     </>
