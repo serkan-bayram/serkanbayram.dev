@@ -30,7 +30,7 @@ export function TextInput({
         {...props}
       />
 
-      <Error field={field} />
+      <Error fieldMeta={field.state.meta} />
     </label>
   );
 }

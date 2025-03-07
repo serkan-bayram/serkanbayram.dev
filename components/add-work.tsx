@@ -5,6 +5,7 @@ import { useAppForm } from "./form-elements/form-hook";
 import { Dialog } from "./dialog";
 import { Button } from "./button";
 import { Error } from "./form-elements/error";
+import { useStore } from "@tanstack/react-form";
 
 export function AddWork() {
   const [open, setOpen] = useState(false);
@@ -34,6 +35,10 @@ export function AddWork() {
       alert(JSON.stringify(value, null, 2));
     },
   });
+
+  const errors = useStore(form.store, (state) => state.errors);
+
+  //   console.log(errors);
 
   return (
     <>
@@ -85,37 +90,46 @@ export function AddWork() {
               {(field) => (
                 <div className="flex flex-col gap-3">
                   {field.state.value.map((_, i) => (
-                    <form.Field key={i} name={`workRepos[${i}]`}>
-                      {(subField) => {
-                        return (
-                          <label className="flex flex-col gap-y-1">
-                            <div>Link {i + 1}</div>
-                            <div className="flex items-center gap-x-2">
-                              <input
-                                placeholder="https://github.com/serkan-bayram/type-race-frontend"
-                                className="bg-background text-text min-w-64 flex-1 rounded-lg p-2"
-                                value={subField.state.value}
-                                onChange={(e) =>
-                                  subField.handleChange(e.target.value)
-                                }
-                              />
+                    <div key={i}>
+                      <form.Field name={`workRepos[${i}]`}>
+                        {(subField) => {
+                          return (
+                            <label className="flex flex-col gap-y-1">
+                              <div>Link {i + 1}</div>
+                              <div className="flex items-center gap-x-2">
+                                <input
+                                  placeholder="https://github.com/serkan-bayram/type-race-frontend"
+                                  className="bg-background text-text min-w-64 flex-1 rounded-lg p-2"
+                                  value={subField.state.value}
+                                  onChange={(e) =>
+                                    subField.handleChange(e.target.value)
+                                  }
+                                />
 
-                              <Button
-                                onClick={() =>
-                                  field.state.value.length > 1 &&
-                                  field.removeValue(i)
-                                }
-                                className="flex aspect-square h-7 items-center justify-center bg-inherit p-0 hover:bg-inherit"
-                                type="button"
-                              >
-                                <TrashIcon className="h-5 w-5 text-white" />
-                              </Button>
-                            </div>
-                            <Error field={subField} />
-                          </label>
-                        );
-                      }}
-                    </form.Field>
+                                <Button
+                                  onClick={() =>
+                                    field.state.value.length > 1 &&
+                                    field.removeValue(i)
+                                  }
+                                  className="flex aspect-square h-7 items-center justify-center bg-inherit p-0 hover:bg-inherit"
+                                  type="button"
+                                >
+                                  <TrashIcon className="h-5 w-5 text-white" />
+                                </Button>
+                              </div>
+                            </label>
+                          );
+                        }}
+                      </form.Field>
+
+                      {/* TODO: Does not work properly */}
+                      <form.Subscribe
+                        selector={(f) => f.fieldMeta[`workRepos[${i}]`]}
+                        children={(fieldMeta) => {
+                          return <Error fieldMeta={fieldMeta} />;
+                        }}
+                      />
+                    </div>
                   ))}
                   <Button
                     onClick={() => field.pushValue("")}
@@ -130,12 +144,17 @@ export function AddWork() {
 
             <form.AppField
               name="workImage"
-              children={(field) => <field.FileInput />}
+              children={(field) => (
+                <field.FileInput
+                  accept="image/*"
+                  containerClassName="col-span-2"
+                />
+              )}
             />
           </div>
 
           <form.AppForm>
-            <form.Button className="mt-6" type="submit">
+            <form.Button className="my-6 ml-auto" type="submit">
               Save
             </form.Button>
           </form.AppForm>

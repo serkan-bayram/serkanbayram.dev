@@ -30,7 +30,7 @@ export function Textarea({
         {...props}
       />
 
-      <Error field={field} />
+      <Error fieldMeta={field.state.meta} />
     </label>
   );
 }
