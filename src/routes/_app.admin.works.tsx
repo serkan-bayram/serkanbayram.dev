@@ -3,6 +3,8 @@ import { Dialog, DialogClose, DialogContent } from "../../components/dialog";
 import { useState } from "react";
 import { Button } from "../../components/button";
 import { PlusCircleIcon, PlusIcon } from "lucide-react";
+import { Input } from "../../components/input";
+import { Label } from "../../components/label";
 
 export const Route = createFileRoute("/_app/admin/works")({
   component: RouteComponent,
@@ -15,7 +17,14 @@ function RouteComponent() {
     <div>
       <Dialog open={open}>
         <DialogContent>
-          <div>abcd</div>
+          <div className="mx-auto text-xl font-semibold">Add Work</div>
+
+          <form>
+            <div className="flex flex-col">
+              <Label htmlFor="workName">Name</Label>
+              <Input placeholder="TypeRace" name="workName" id="workName" />
+            </div>
+          </form>
         </DialogContent>
 
         <DialogClose>
