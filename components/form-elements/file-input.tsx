@@ -1,4 +1,4 @@
-import { useFieldContext } from "../lib/form";
+import { useFieldContext } from "./form-hook";
 
 export function FileInput() {
   const field = useFieldContext<string>();

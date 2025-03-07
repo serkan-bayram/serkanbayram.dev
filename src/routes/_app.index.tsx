@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { GithubSvg } from "../../components/github-svg";
-import { LinkedinSvg } from "../../components/linkedin-svg";
+import { GithubSvg } from "../../components/svg/github-svg";
+import { LinkedinSvg } from "../../components/svg/linkedin-svg";
 
 export const Route = createFileRoute("/_app/")({
   component: RouteComponent,

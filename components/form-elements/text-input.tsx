@@ -1,25 +1,26 @@
-import { TextareaHTMLAttributes } from "react";
-import { cn } from "../lib/cn";
-import { useFieldContext } from "../lib/form";
+import { InputHTMLAttributes } from "react";
+import { useFieldContext } from "./form-hook";
+import { cn } from "../../lib/cn";
+import { Error } from "./error";
 
-type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
+type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   containerClassName?: string;
 };
 
-export function Textarea({
+export function TextInput({
   label,
   containerClassName,
   className,
   ...props
-}: TextareaProps) {
+}: InputProps) {
   const field = useFieldContext<string>();
 
   return (
     <label className={cn("flex flex-col gap-y-1", containerClassName)}>
       <div>{label}</div>
 
-      <textarea
+      <input
         value={field.state.value}
         onChange={(e) => field.handleChange(e.target.value)}
         className={cn(
@@ -28,6 +29,8 @@ export function Textarea({
         )}
         {...props}
       />
+
+      <Error field={field} />
     </label>
   );
 }

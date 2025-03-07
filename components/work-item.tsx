@@ -1,6 +1,6 @@
 import { ArrowUpRightIcon } from "lucide-react";
 import { WorkStatus } from "./work-status";
-import { GithubSvg } from "./github-svg";
+import { GithubSvg } from "./svg/github-svg";
 
 export type WorkStatus = "in-progress";
 

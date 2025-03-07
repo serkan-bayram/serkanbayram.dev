@@ -1,17 +1,17 @@
-import { ReactElement, useEffect, useRef, ReactNode } from "react";
+import { useEffect, useRef, ReactNode, SetStateAction, Dispatch } from "react";
 import { cn } from "../lib/cn";
+import { CrossIcon } from "lucide-react";
 
 export function Dialog({
   open,
+  setOpen,
   children,
   className,
 }: {
   open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
   className?: string;
-  children: [
-    ReactElement<typeof DialogClose>,
-    ReactElement<typeof DialogContent>,
-  ];
+  children: ReactNode;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
 
@@ -27,20 +27,22 @@ export function Dialog({
   return (
     <dialog
       className={cn(
-        "bg-background-light fixed inset-0 m-auto h-1/3 w-1/2 rounded-lg p-4",
+        "bg-background-light backdrop:bg-background/70 fixed inset-0 m-auto h-1/3 w-1/2 rounded-lg p-4",
         className,
       )}
       ref={ref}
     >
-      <div className="flex h-full w-full flex-col">{children}</div>
+      <div className="flex h-full w-full flex-col">
+        <div className="flex items-center justify-between">
+          <div className="mb-4 text-xl font-semibold">Add Work</div>
+
+          <button className="cursor-pointer" onClick={() => setOpen(false)}>
+            <CrossIcon className="rotate-45 text-white" />
+          </button>
+        </div>
+
+        {children}
+      </div>
     </dialog>
   );
-}
-
-export function DialogClose({ children }: { children: ReactNode }) {
-  return children;
-}
-
-export function DialogContent({ children }: { children: ReactNode }) {
-  return children;
 }
