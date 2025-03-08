@@ -18,3 +18,5 @@ dist/
 .idea
 
 public/
+
+lib/api/schema.d.ts
