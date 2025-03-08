@@ -5,10 +5,23 @@ import { useAppForm } from "./form-elements/form-hook";
 import { Dialog } from "./dialog";
 import { Button } from "./button";
 import { Error } from "./form-elements/error";
-import { useStore } from "@tanstack/react-form";
+import { useSaveWorkMutation } from "../lib/api/mutations";
+
+const saveWorkSchema = z.object({
+  workName: z.string(),
+  workLink: z.string().url("Invalid URL"),
+  workDescription: z.string(),
+  workImage: z.string(),
+  workStatus: z.string(),
+  workRepos: z.array(z.string().url("Invalid URL")),
+});
+
+export type SaveWork = z.infer<typeof saveWorkSchema>;
 
 export function AddWork() {
   const [open, setOpen] = useState(false);
+
+  const saveMutation = useSaveWorkMutation();
 
   const form = useAppForm({
     defaultValues: {
@@ -21,24 +34,15 @@ export function AddWork() {
     },
     validators: {
       // Pass a schema or function to validate
-      onChange: z.object({
-        workName: z.string(),
-        workLink: z.string().url("Invalid URL"),
-        workDescription: z.string(),
-        workImage: z.string(),
-        workStatus: z.string(),
-        workRepos: z.array(z.string().url("Invalid URL")),
-      }),
+      onChange: saveWorkSchema,
     },
     onSubmit: ({ value }) => {
+      saveMutation.mutate(value);
+
       // Do something with form data
       alert(JSON.stringify(value, null, 2));
     },
   });
-
-  const errors = useStore(form.store, (state) => state.errors);
-
-  //   console.log(errors);
 
   return (
     <>
