@@ -6,6 +6,7 @@ import { Dialog } from "./dialog";
 import { Button } from "./button";
 import { Error } from "./form-elements/error";
 import { useSaveWorkMutation } from "../lib/api/mutations";
+import { cn } from "../lib/cn";
 
 const saveWorkSchema = z.object({
   workName: z.string(),
@@ -38,9 +39,6 @@ export function AddWork() {
     },
     onSubmit: ({ value }) => {
       saveMutation.mutate(value);
-
-      // Do something with form data
-      alert(JSON.stringify(value, null, 2));
     },
   });
 
@@ -99,7 +97,7 @@ export function AddWork() {
                         {(subField) => {
                           return (
                             <label className="flex flex-col gap-y-1">
-                              <div>Link {i + 1}</div>
+                              <div>Repo Link {i + 1}</div>
                               <div className="flex items-center gap-x-2">
                                 <input
                                   placeholder="https://github.com/serkan-bayram/type-race-frontend"
@@ -111,10 +109,7 @@ export function AddWork() {
                                 />
 
                                 <Button
-                                  onClick={() =>
-                                    field.state.value.length > 1 &&
-                                    field.removeValue(i)
-                                  }
+                                  onClick={() => field.removeValue(i)}
                                   className="flex aspect-square h-7 items-center justify-center bg-inherit p-0 hover:bg-inherit"
                                   type="button"
                                 >
@@ -138,7 +133,12 @@ export function AddWork() {
                   <Button
                     onClick={() => field.pushValue("")}
                     type="button"
-                    className="bg-background/50 hover:bg-background/30 flex w-full justify-center"
+                    className={cn(
+                      "bg-background/50 hover:bg-background/30 flex w-full justify-center",
+                      {
+                        "mt-auto": field.state.value.length === 0,
+                      },
+                    )}
                   >
                     <PlusCircleIcon className="text-white" />
                   </Button>
@@ -158,8 +158,12 @@ export function AddWork() {
           </div>
 
           <form.AppForm>
-            <form.Button className="my-6 ml-auto" type="submit">
-              Save
+            <form.Button
+              className="my-6 ml-auto"
+              type="submit"
+              disabled={saveMutation.isPending}
+            >
+              {saveMutation.isPending ? "Saving..." : "Save"}
             </form.Button>
           </form.AppForm>
         </form>
