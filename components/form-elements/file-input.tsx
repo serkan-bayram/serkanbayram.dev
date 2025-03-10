@@ -1,7 +1,8 @@
 import { UploadIcon } from "lucide-react";
 import { useFieldContext } from "./form-hook";
-import { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, useState } from "react";
 import { cn } from "../../lib/cn";
+import { toBase64 } from "../../lib/toBase64";
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   containerClassName?: string;
@@ -14,7 +15,7 @@ export function FileInput({
 }: InputProps) {
   const field = useFieldContext<string>();
 
-  const file = field.state.value;
+  const [fileName, setFileName] = useState("");
 
   return (
     <label
@@ -28,16 +29,26 @@ export function FileInput({
         id={field.name}
         className={cn("hidden", className)}
         type="file"
-        onChange={(e) => field.handleChange(e.target.value)}
-        value={field.state.value}
+        onChange={async (e) => {
+          const file = e.target.files && e.target.files[0];
+
+          if (file) {
+            setFileName(file.name);
+
+            const base64 = await toBase64(file);
+
+            field.handleChange(base64);
+          }
+        }}
+        value={""}
         {...props}
       />
       <div className="flex w-full flex-col items-center gap-y-2">
         <UploadIcon />
-        {file ? (
+        {fileName.length > 0 ? (
           <div className="flex w-full justify-center">
             <div className="max-w-[60%] overflow-x-hidden text-nowrap">
-              {file}
+              {fileName}
             </div>
           </div>
         ) : (

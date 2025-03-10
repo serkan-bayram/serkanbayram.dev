@@ -14,7 +14,7 @@ export function useSaveWorkMutation() {
         body: {
           name: work.workName,
           description: work.workDescription,
-          imageSource: work.workImage || null,
+          imageSource: work.workImage,
           link: work.workLink || null,
           repoLinks: work.workRepos,
           status: work.workStatus || null,

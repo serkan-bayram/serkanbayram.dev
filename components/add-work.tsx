@@ -7,6 +7,7 @@ import { Button } from "./button";
 import { Error } from "./form-elements/error";
 import { useSaveWorkMutation } from "../lib/api/mutations";
 import { cn } from "../lib/cn";
+import { toBase64 } from "../lib/toBase64";
 
 const saveWorkSchema = z.object({
   workName: z.string(),
@@ -34,10 +35,9 @@ export function AddWork() {
       workRepos: [""] as string[],
     },
     validators: {
-      // Pass a schema or function to validate
       onChange: saveWorkSchema,
     },
-    onSubmit: ({ value }) => {
+    onSubmit: async ({ value }) => {
       saveMutation.mutate(value);
     },
   });
