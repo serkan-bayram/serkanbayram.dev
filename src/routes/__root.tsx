@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AuthContextType } from "../AuthProvider";
+import { AuthContextType } from "../../components/auth-provider";
 
 const TanStackRouterDevtools =
   import.meta.env.MODE === "production"

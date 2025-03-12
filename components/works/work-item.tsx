@@ -1,35 +1,35 @@
 import { ArrowUpRightIcon } from "lucide-react";
+import type { WorkItem } from "../../lib/schemas";
+import { GithubSvg } from "../svg/github-svg";
 import { WorkStatus } from "./work-status";
-import { GithubSvg } from "./svg/github-svg";
-import type { WorkItem } from "../lib/schemas";
-import { UpdateWork } from "./update-work";
+import { WorkDialog } from "./work-action-dialog";
+import { useState } from "react";
 
-export function WorkItem({
-  id,
-  name,
-  link,
-  description,
-  imageSource,
-  status,
-  repoLinks = [],
-}: WorkItem) {
+export function WorkItem({ workItem }: { workItem: WorkItem }) {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const {
+    name,
+    link,
+    description,
+    imageSource,
+    status,
+    repoLinks = [],
+  } = workItem;
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-col gap-y-1">
-        <UpdateWork
-          id={id}
-          name={name}
-          link={link}
-          description={description}
-          imageSource={imageSource}
-          status={status}
-          repoLinks={repoLinks}
-        />
-
         <WorkHeader name={name} link={link} />
 
         <p className="max-w-prose">{description}</p>
       </div>
+
+      <WorkDialog
+        open={isDialogOpen}
+        setOpen={setIsDialogOpen}
+        workItem={workItem}
+      />
 
       {imageSource && (
         <img
@@ -46,6 +46,13 @@ export function WorkItem({
             </a>
           ))}
         </div>
+
+        <button
+          className="cursor-pointer"
+          onClick={() => setIsDialogOpen(true)}
+        >
+          Edit Work
+        </button>
 
         {status && <WorkStatus status={status} />}
       </div>

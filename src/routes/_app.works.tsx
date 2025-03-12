@@ -1,7 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { fetchWorks } from "../../lib/api/fetch";
-import { WorkItem } from "../../components/work-item";
-import { AddWork } from "../../components/add-work";
+import { WorkItem } from "../../components/works/work-item";
+import { WorkDialog } from "../../components/works/work-action-dialog";
+import { useState } from "react";
+import { Button } from "../../components/button";
+import { PlusCircleIcon } from "lucide-react";
+import { useAuth } from "../../components/auth-provider";
 
 export const Route = createFileRoute("/_app/works")({
   loader: () => fetchWorks(),
@@ -11,22 +15,30 @@ export const Route = createFileRoute("/_app/works")({
 function RouteComponent() {
   const works = Route.useLoaderData();
 
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const { isAuthenticated } = useAuth();
+
   return (
-    <>
-      <div className="mb-16 flex flex-col gap-y-14">
-        <h1 className="mx-auto p-12 pb-4 text-4xl font-extrabold">
-          Things I Built
-        </h1>
+    <div className="mb-16 flex flex-col gap-y-14">
+      <h1 className="mx-auto p-12 pb-4 text-4xl font-extrabold">
+        Things I Built
+      </h1>
 
+      <WorkDialog open={isDialogOpen} setOpen={setIsDialogOpen} />
+
+      {isAuthenticated && (
         <div className="mx-auto">
-          <AddWork />
+          <Button onClick={() => setIsDialogOpen(true)}>
+            <PlusCircleIcon className="h-5 w-5" /> Add Work
+          </Button>
         </div>
+      )}
 
-        {works.map((work) => (
-          <WorkItem key={work.id} {...work} />
-        ))}
-      </div>
-    </>
+      {works.map((work) => (
+        <WorkItem key={work.id} workItem={work} />
+      ))}
+    </div>
   );
 }
 

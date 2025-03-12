@@ -1,16 +1,6 @@
-import {
-  createFileRoute,
-  Link,
-  Outlet,
-  redirect,
-} from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_app")({
-  beforeLoad: ({ context }) => {
-    // if (!context.auth.isAuthenticated) {
-    //   throw redirect({ to: "/admin/works" });
-    // }
-  },
   component: RouteComponent,
 });
 
@@ -32,6 +22,7 @@ function RouteComponent() {
             works
           </Link>
         </div>
+
         <Outlet />
       </div>
     </div>

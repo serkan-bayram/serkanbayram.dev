@@ -14,7 +14,6 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AppImport } from './routes/_app'
 import { Route as AppIndexImport } from './routes/_app.index'
 import { Route as AppWorksImport } from './routes/_app.works'
-import { Route as AppAdminWorksImport } from './routes/_app.admin.works'
 
 // Create/Update Routes
 
@@ -32,12 +31,6 @@ const AppIndexRoute = AppIndexImport.update({
 const AppWorksRoute = AppWorksImport.update({
   id: '/works',
   path: '/works',
-  getParentRoute: () => AppRoute,
-} as any)
-
-const AppAdminWorksRoute = AppAdminWorksImport.update({
-  id: '/admin/works',
-  path: '/admin/works',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -66,13 +59,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexImport
       parentRoute: typeof AppImport
     }
-    '/_app/admin/works': {
-      id: '/_app/admin/works'
-      path: '/admin/works'
-      fullPath: '/admin/works'
-      preLoaderRoute: typeof AppAdminWorksImport
-      parentRoute: typeof AppImport
-    }
   }
 }
 
@@ -81,13 +67,11 @@ declare module '@tanstack/react-router' {
 interface AppRouteChildren {
   AppWorksRoute: typeof AppWorksRoute
   AppIndexRoute: typeof AppIndexRoute
-  AppAdminWorksRoute: typeof AppAdminWorksRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppWorksRoute: AppWorksRoute,
   AppIndexRoute: AppIndexRoute,
-  AppAdminWorksRoute: AppAdminWorksRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -96,13 +80,11 @@ export interface FileRoutesByFullPath {
   '': typeof AppRouteWithChildren
   '/works': typeof AppWorksRoute
   '/': typeof AppIndexRoute
-  '/admin/works': typeof AppAdminWorksRoute
 }
 
 export interface FileRoutesByTo {
   '/works': typeof AppWorksRoute
   '/': typeof AppIndexRoute
-  '/admin/works': typeof AppAdminWorksRoute
 }
 
 export interface FileRoutesById {
@@ -110,15 +92,14 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/_app/works': typeof AppWorksRoute
   '/_app/': typeof AppIndexRoute
-  '/_app/admin/works': typeof AppAdminWorksRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/works' | '/' | '/admin/works'
+  fullPaths: '' | '/works' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/works' | '/' | '/admin/works'
-  id: '__root__' | '/_app' | '/_app/works' | '/_app/' | '/_app/admin/works'
+  to: '/works' | '/'
+  id: '__root__' | '/_app' | '/_app/works' | '/_app/'
   fileRoutesById: FileRoutesById
 }
 
@@ -147,8 +128,7 @@ export const routeTree = rootRoute
       "filePath": "_app.tsx",
       "children": [
         "/_app/works",
-        "/_app/",
-        "/_app/admin/works"
+        "/_app/"
       ]
     },
     "/_app/works": {
@@ -157,10 +137,6 @@ export const routeTree = rootRoute
     },
     "/_app/": {
       "filePath": "_app.index.tsx",
-      "parent": "/_app"
-    },
-    "/_app/admin/works": {
-      "filePath": "_app.admin.works.tsx",
       "parent": "/_app"
     }
   }
