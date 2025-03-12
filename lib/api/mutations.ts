@@ -1,7 +1,7 @@
 import createClient from "openapi-fetch";
 import { useMutation } from "@tanstack/react-query";
 import { paths } from "./schema";
-import { SaveWork } from "../../components/add-work";
+import { SaveWork } from "../schemas";
 
 export const client = createClient<paths>({
   baseUrl: import.meta.env.VITE_BASE_URL,
@@ -14,10 +14,12 @@ export function useSaveWorkMutation() {
         body: {
           name: work.workName,
           description: work.workDescription,
-          imageSource: work.workImage,
+
           link: work.workLink || null,
-          repoLinks: work.workRepos,
+          imageSource: work.workImage || null,
           status: work.workStatus || null,
+
+          repoLinks: work.workRepos,
         },
       });
 

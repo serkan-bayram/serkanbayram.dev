@@ -7,11 +7,13 @@ export function Dialog({
   setOpen,
   children,
   className,
+  title,
 }: {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   className?: string;
   children: ReactNode;
+  title: string;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
 
@@ -34,7 +36,7 @@ export function Dialog({
     >
       <div className="flex h-full w-full flex-col">
         <div className="flex items-center justify-between">
-          <div className="mb-4 text-xl font-semibold">Add Work</div>
+          <div className="text-xl font-semibold">{title}</div>
 
           <button className="cursor-pointer" onClick={() => setOpen(false)}>
             <CrossIcon className="rotate-45 text-white" />

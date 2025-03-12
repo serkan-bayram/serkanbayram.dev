@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const WorkSchema = z.object({
+export const workSchema = z.object({
   id: z.number(),
   name: z.string(),
   description: z.string(),
@@ -25,4 +25,15 @@ export const WorkSchema = z.object({
   repoLinks: z.array(z.string()),
 });
 
-export type WorkItem = z.infer<typeof WorkSchema>;
+export type WorkItem = z.infer<typeof workSchema>;
+
+export const saveWorkSchema = z.object({
+  workName: z.string(),
+  workLink: z.string().url("Invalid URL"),
+  workDescription: z.string(),
+  workImage: z.string(),
+  workStatus: z.string(),
+  workRepos: z.array(z.string().url("Invalid URL")),
+});
+
+export type SaveWork = z.infer<typeof saveWorkSchema>;

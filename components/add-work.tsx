@@ -1,23 +1,13 @@
 import { useState } from "react";
 import { PlusCircleIcon, TrashIcon } from "lucide-react";
-import { z } from "zod";
 import { useAppForm } from "./form-elements/form-hook";
 import { Dialog } from "./dialog";
 import { Button } from "./button";
 import { Error } from "./form-elements/error";
 import { useSaveWorkMutation } from "../lib/api/mutations";
 import { cn } from "../lib/cn";
-
-const saveWorkSchema = z.object({
-  workName: z.string(),
-  workLink: z.string().url("Invalid URL"),
-  workDescription: z.string(),
-  workImage: z.string(),
-  workStatus: z.string(),
-  workRepos: z.array(z.string().url("Invalid URL")),
-});
-
-export type SaveWork = z.infer<typeof saveWorkSchema>;
+import { saveWorkSchema } from "../lib/schemas";
+import { useAuth } from "../src/AuthProvider";
 
 export function AddWork() {
   const [open, setOpen] = useState(false);
@@ -41,9 +31,13 @@ export function AddWork() {
     },
   });
 
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) return null;
+
   return (
     <>
-      <Dialog className="h-3/4" open={open} setOpen={setOpen}>
+      <Dialog className="h-3/4" open={open} setOpen={setOpen} title="Add Work">
         <form
           onSubmit={(e) => {
             e.preventDefault();

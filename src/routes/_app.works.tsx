@@ -18,7 +18,7 @@ function RouteComponent() {
           Things I Built
         </h1>
 
-        <div>
+        <div className="mx-auto">
           <AddWork />
         </div>
 

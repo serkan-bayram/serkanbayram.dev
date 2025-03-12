@@ -2,6 +2,7 @@ import { ArrowUpRightIcon } from "lucide-react";
 import { WorkStatus } from "./work-status";
 import { GithubSvg } from "./svg/github-svg";
 import type { WorkItem } from "../lib/schemas";
+import { DeleteWork } from "./delete-work";
 
 export function WorkItem({
   name,
@@ -18,6 +19,8 @@ export function WorkItem({
           <WorkHeader name={name} link={link} />
 
           <p className="max-w-prose">{description}</p>
+
+          <DeleteWork />
         </div>
 
         {imageSource && (
