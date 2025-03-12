@@ -7,7 +7,6 @@ import { Button } from "./button";
 import { Error } from "./form-elements/error";
 import { useSaveWorkMutation } from "../lib/api/mutations";
 import { cn } from "../lib/cn";
-import { toBase64 } from "../lib/toBase64";
 
 const saveWorkSchema = z.object({
   workName: z.string(),

@@ -1,17 +1,7 @@
 import { ArrowUpRightIcon } from "lucide-react";
 import { WorkStatus } from "./work-status";
 import { GithubSvg } from "./svg/github-svg";
-
-export type WorkStatus = "in-progress";
-
-type WorkItem = {
-  name: string;
-  link?: string;
-  description: string;
-  imageSource: string;
-  status?: WorkStatus; // We can add more options later maybe
-  repoLinks?: string[];
-};
+import type { WorkItem } from "../lib/schemas";
 
 export function WorkItem({
   name,
@@ -30,10 +20,12 @@ export function WorkItem({
           <p className="max-w-prose">{description}</p>
         </div>
 
-        <img
-          src={imageSource}
-          className="border-background-light mx-auto mt-8 rounded-lg border"
-        />
+        {imageSource && (
+          <img
+            src={`${import.meta.env.VITE_BASE_URL}/images/${imageSource}`}
+            className="border-background-light mx-auto mt-8 rounded-lg border"
+          />
+        )}
 
         <div className="flex items-center justify-between pt-2">
           <div className="flex gap-x-2">
