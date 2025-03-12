@@ -4,6 +4,7 @@ import { GithubSvg } from "../svg/github-svg";
 import { WorkStatus } from "./work-status";
 import { WorkDialog } from "./work-action-dialog";
 import { useState } from "react";
+import { useAuth } from "../auth-provider";
 
 export function WorkItem({ workItem }: { workItem: WorkItem }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -16,6 +17,8 @@ export function WorkItem({ workItem }: { workItem: WorkItem }) {
     status,
     repoLinks = [],
   } = workItem;
+
+  const { isAuthenticated } = useAuth();
 
   return (
     <div className="flex flex-col">
@@ -47,12 +50,14 @@ export function WorkItem({ workItem }: { workItem: WorkItem }) {
           ))}
         </div>
 
-        <button
-          className="cursor-pointer"
-          onClick={() => setIsDialogOpen(true)}
-        >
-          Edit Work
-        </button>
+        {isAuthenticated && (
+          <button
+            className="cursor-pointer"
+            onClick={() => setIsDialogOpen(true)}
+          >
+            Edit Work
+          </button>
+        )}
 
         {status && <WorkStatus status={status} />}
       </div>

@@ -36,13 +36,23 @@ export function WorkDialog({
     },
     onSubmit: async ({ value }) => {
       if (workItem) {
-        updateMutation.mutate({ work: value, workId: workItem.id });
+        updateMutation.mutate(
+          { work: value, workId: workItem.id },
+          {
+            onSuccess: () => {
+              setOpen(false);
+              form.reset();
+            },
+          },
+        );
       } else {
-        saveMutation.mutate(value);
+        saveMutation.mutate(value, {
+          onSuccess: () => {
+            setOpen(false);
+            form.reset();
+          },
+        });
       }
-
-      // setOpen(false);
-      // form.reset();
     },
   });
 
@@ -170,7 +180,14 @@ export function WorkDialog({
             <Button
               className="text-danger hover:text-danger-light"
               variant="link"
-              onClick={() => deleteWorkMutation.mutate(workItem.id)}
+              onClick={() =>
+                deleteWorkMutation.mutate(workItem.id, {
+                  onSuccess: () => {
+                    setOpen(false);
+                    form.reset();
+                  },
+                })
+              }
               disabled={deleteWorkMutation.isPending}
             >
               Delete Work

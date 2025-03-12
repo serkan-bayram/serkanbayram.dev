@@ -20,3 +20,5 @@ dist/
 public/
 
 lib/api/schema.d.ts
+
+routeTree.gen.ts
