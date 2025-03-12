@@ -29,8 +29,8 @@ function RouteComponent() {
 
       {isAuthenticated && (
         <div className="mx-auto">
-          <Button onClick={() => setIsDialogOpen(true)}>
-            <PlusCircleIcon className="h-5 w-5" /> Add Work
+          <Button Icon={PlusCircleIcon} onClick={() => setIsDialogOpen(true)}>
+            Add Work
           </Button>
         </div>
       )}

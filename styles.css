@@ -16,6 +16,9 @@
 
   --color-accent: #a522ed;
   --color-accent-light: #c064f2;
+
+  --color-danger: var(--color-red-500);
+  --color-danger-light: var(--color-red-400);
 }
 
 html {

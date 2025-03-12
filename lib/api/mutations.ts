@@ -16,20 +16,22 @@ export function useSaveWorkMutation() {
       router.invalidate();
     },
     mutationFn: async (work: SaveWork) => {
-      const { data, error } = await client.POST("/api/Works", {
-        body: {
-          name: work.workName,
-          description: work.workDescription,
+      return new Promise((resolve) => setTimeout(() => resolve, 1000));
 
-          link: work.workLink || null,
-          imageSource: work.workImage || null,
-          status: work.workStatus || null,
+      // const { data, error } = await client.POST("/api/Works", {
+      //   body: {
+      //     name: work.workName,
+      //     description: work.workDescription,
 
-          repoLinks: work.workRepos,
-        },
-      });
+      //     link: work.workLink || null,
+      //     imageSource: work.workImage || null,
+      //     status: work.workStatus || null,
 
-      console.log(data, error);
+      //     repoLinks: work.workRepos,
+      //   },
+      // });
+
+      // console.log(data, error);
     },
   });
 }
@@ -42,6 +44,8 @@ export function useDeleteWorkMutation() {
       router.invalidate();
     },
     mutationFn: async (workId: WorkItem["id"]) => {
+      return new Promise((resolve) => setTimeout(() => resolve, 1000));
+
       const { data, error } = await client.DELETE("/api/Works/{id}", {
         params: {
           path: {

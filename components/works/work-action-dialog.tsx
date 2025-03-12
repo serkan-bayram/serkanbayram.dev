@@ -41,8 +41,8 @@ export function WorkDialog({
         saveMutation.mutate(value);
       }
 
-      setOpen(false);
-      form.reset();
+      // setOpen(false);
+      // form.reset();
     },
   });
 
@@ -168,8 +168,10 @@ export function WorkDialog({
         <div className="flex items-center justify-between">
           {workItem && (
             <Button
-              variant="danger"
+              className="text-danger hover:text-danger-light"
+              variant="link"
               onClick={() => deleteWorkMutation.mutate(workItem.id)}
+              disabled={deleteWorkMutation.isPending}
             >
               Delete Work
             </Button>
@@ -181,7 +183,7 @@ export function WorkDialog({
               type="submit"
               disabled={isPending}
             >
-              {isPending ? "Saving..." : "Save"}
+              Save
             </form.Button>
           </form.AppForm>
         </div>
