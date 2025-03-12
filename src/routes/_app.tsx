@@ -10,14 +10,16 @@ function RouteComponent() {
       <div className="h-full w-1/2 p-2 pt-12">
         <div className="mb-8 flex gap-x-3">
           <Link
-            className="hover:text-accent transition-colors ease-in-out"
+            className="data-[status=active]:text-accent hover:text-accent-light data-[status=active]:hover:text-accent-light relative transition-colors ease-in-out"
             to="/"
+            viewTransition
           >
             home
           </Link>
           <Link
-            className="hover:text-accent transition-colors ease-in-out"
+            className="hover:text-accent-light data-[status=active]:text-accent data-[status=active]:hover:text-accent-light relative transition-colors ease-in-out"
             to="/works"
+            viewTransition
           >
             works
           </Link>
