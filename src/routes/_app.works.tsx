@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { fetchWorks } from "../../lib/api/fetch";
 import { WorkItem } from "../../components/work-item";
+import { AddWork } from "../../components/add-work";
 
 export const Route = createFileRoute("/_app/works")({
   loader: () => fetchWorks(),
@@ -16,6 +17,10 @@ function RouteComponent() {
         <h1 className="mx-auto p-12 pb-4 text-4xl font-extrabold">
           Things I Built
         </h1>
+
+        <div>
+          <AddWork />
+        </div>
 
         {works.map((work) => (
           <WorkItem key={work.id} {...work} />
