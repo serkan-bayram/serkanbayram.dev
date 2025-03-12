@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { Button } from "./button";
 import { Dialog } from "./dialog";
-import { useAuth } from "../src/AuthProvider";
+import { useDeleteWorkMutation } from "../lib/api/mutations";
+import { WorkItem } from "../lib/schemas";
 
-export function DeleteWork() {
+export function DeleteWork({ workId }: { workId: WorkItem["id"] }) {
   const [open, setOpen] = useState(false);
 
-  const { isAuthenticated } = useAuth();
-
-  if (!isAuthenticated) return null;
+  const deleteWorkMutation = useDeleteWorkMutation();
 
   return (
     <div>
@@ -18,7 +17,13 @@ export function DeleteWork() {
         open={open}
         setOpen={setOpen}
       >
-        <Button className="mt-auto ml-auto">Yes</Button>
+        <Button
+          onClick={() => deleteWorkMutation.mutate(workId)}
+          disabled={deleteWorkMutation.isPending}
+          className="mt-auto ml-auto"
+        >
+          {deleteWorkMutation.isPending ? "Loading..." : "Yes"}
+        </Button>
       </Dialog>
 
       <Button variant="danger" onClick={() => setOpen(true)}>

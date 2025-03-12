@@ -1,49 +1,59 @@
 import { useState } from "react";
-import { PlusCircleIcon, TrashIcon } from "lucide-react";
+import { Edit2Icon, PlusCircleIcon, TrashIcon } from "lucide-react";
 import { useAppForm } from "./form-elements/form-hook";
 import { Dialog } from "./dialog";
 import { Button } from "./button";
 import { Error } from "./form-elements/error";
-import { useSaveWorkMutation } from "../lib/api/mutations";
+import { useUpdateWorkMutation } from "../lib/api/mutations";
 import { cn } from "../lib/cn";
-import { saveWorkSchema } from "../lib/schemas";
+import { saveWorkSchema, WorkItem } from "../lib/schemas";
 import { useAuth } from "../src/AuthProvider";
+import { DeleteWork } from "./delete-work";
 
-export function AddWork() {
+export function UpdateWork({
+  id,
+  name,
+  link,
+  description,
+  imageSource,
+  status,
+  repoLinks,
+}: WorkItem) {
   const [open, setOpen] = useState(false);
 
-  const saveMutation = useSaveWorkMutation();
+  const updateMutation = useUpdateWorkMutation();
 
   const form = useAppForm({
     defaultValues: {
-      workName: "",
-      workLink: "",
-      workDescription: "",
-      workImage: "",
-      workStatus: "",
-      workRepos: [""] as string[],
+      workName: name,
+      workDescription: description,
+      workLink: link ?? "",
+      workImage: imageSource ?? "",
+      workStatus: status ?? "",
+      workRepos: repoLinks as string[],
     },
     validators: {
-      onSubmit: saveWorkSchema,
       onChange: saveWorkSchema,
     },
     onSubmit: async ({ value }) => {
-      saveMutation.mutate(value);
-
-      setOpen(false);
-      form.reset();
+      updateMutation.mutate({ work: value, workId: id });
     },
   });
 
-  console.log(saveMutation.error);
+  console.log(updateMutation.error);
 
   const { isAuthenticated } = useAuth();
 
-  // if (!isAuthenticated) return null;
+  //   if (!isAuthenticated) return null;
 
   return (
     <>
-      <Dialog className="h-3/4" open={open} setOpen={setOpen} title="Add Work">
+      <Dialog
+        className="h-3/4"
+        open={open}
+        setOpen={setOpen}
+        title="Update Work"
+      >
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -156,20 +166,27 @@ export function AddWork() {
             />
           </div>
 
-          <form.AppForm>
-            <form.Button
-              className="my-6 ml-auto"
-              type="submit"
-              disabled={saveMutation.isPending}
-            >
-              {saveMutation.isPending ? "Saving..." : "Save"}
-            </form.Button>
-          </form.AppForm>
+          <div className="flex items-center">
+            <DeleteWork workId={id} />
+
+            <form.AppForm>
+              <form.Button
+                className="my-6 ml-auto"
+                type="submit"
+                disabled={updateMutation.isPending}
+              >
+                {updateMutation.isPending ? "Saving..." : "Save"}
+              </form.Button>
+            </form.AppForm>
+          </div>
         </form>
       </Dialog>
-      <Button onClick={() => setOpen(true)}>
-        <PlusCircleIcon className="h-5 w-5" /> Add Work
-      </Button>
+      <button
+        onClick={() => setOpen(true)}
+        className="bg-text text-background w-fit cursor-pointer rounded-full p-1"
+      >
+        <Edit2Icon />
+      </button>
     </>
   );
 }

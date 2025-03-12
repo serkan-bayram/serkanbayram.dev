@@ -2,9 +2,10 @@ import { ArrowUpRightIcon } from "lucide-react";
 import { WorkStatus } from "./work-status";
 import { GithubSvg } from "./svg/github-svg";
 import type { WorkItem } from "../lib/schemas";
-import { DeleteWork } from "./delete-work";
+import { UpdateWork } from "./update-work";
 
 export function WorkItem({
+  id,
   name,
   link,
   description,
@@ -13,34 +14,40 @@ export function WorkItem({
   repoLinks = [],
 }: WorkItem) {
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col">
-        <div className="flex flex-col gap-y-1">
-          <WorkHeader name={name} link={link} />
+    <div className="flex flex-col">
+      <div className="flex flex-col gap-y-1">
+        <UpdateWork
+          id={id}
+          name={name}
+          link={link}
+          description={description}
+          imageSource={imageSource}
+          status={status}
+          repoLinks={repoLinks}
+        />
 
-          <p className="max-w-prose">{description}</p>
+        <WorkHeader name={name} link={link} />
 
-          <DeleteWork />
+        <p className="max-w-prose">{description}</p>
+      </div>
+
+      {imageSource && (
+        <img
+          src={`${import.meta.env.VITE_BASE_URL}/images/${imageSource}`}
+          className="border-background-light mx-auto mt-8 rounded-lg border"
+        />
+      )}
+
+      <div className="flex items-center justify-between pt-2">
+        <div className="flex gap-x-2">
+          {repoLinks.map((repoLink, index) => (
+            <a key={index} target="_blank" href={repoLink}>
+              <GithubSvg fill="white" width={30} height={30} />
+            </a>
+          ))}
         </div>
 
-        {imageSource && (
-          <img
-            src={`${import.meta.env.VITE_BASE_URL}/images/${imageSource}`}
-            className="border-background-light mx-auto mt-8 rounded-lg border"
-          />
-        )}
-
-        <div className="flex items-center justify-between pt-2">
-          <div className="flex gap-x-2">
-            {repoLinks.map((repoLink, index) => (
-              <a key={index} target="_blank" href={repoLink}>
-                <GithubSvg fill="white" width={30} height={30} />
-              </a>
-            ))}
-          </div>
-
-          {status && <WorkStatus status={status} />}
-        </div>
+        {status && <WorkStatus status={status} />}
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ function RouteComponent() {
 
   return (
     <>
-      <div className="flex flex-col gap-y-14">
+      <div className="mb-16 flex flex-col gap-y-14">
         <h1 className="mx-auto p-12 pb-4 text-4xl font-extrabold">
           Things I Built
         </h1>

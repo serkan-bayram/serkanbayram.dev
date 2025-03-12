@@ -28,9 +28,9 @@ export const workSchema = z.object({
 export type WorkItem = z.infer<typeof workSchema>;
 
 export const saveWorkSchema = z.object({
-  workName: z.string(),
+  workName: z.string().min(1),
+  workDescription: z.string().min(1),
   workLink: z.string().url("Invalid URL"),
-  workDescription: z.string(),
   workImage: z.string(),
   workStatus: z.string(),
   workRepos: z.array(z.string().url("Invalid URL")),
