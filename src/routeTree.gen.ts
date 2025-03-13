@@ -11,11 +11,18 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LoginImport } from './routes/login'
 import { Route as AppImport } from './routes/_app'
 import { Route as AppIndexImport } from './routes/_app.index'
 import { Route as AppWorksImport } from './routes/_app.works'
 
 // Create/Update Routes
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const AppRoute = AppImport.update({
   id: '/_app',
@@ -43,6 +50,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AppImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
     '/_app/works': {
@@ -78,11 +92,13 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 export interface FileRoutesByFullPath {
   '': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
   '/works': typeof AppWorksRoute
   '/': typeof AppIndexRoute
 }
 
 export interface FileRoutesByTo {
+  '/login': typeof LoginRoute
   '/works': typeof AppWorksRoute
   '/': typeof AppIndexRoute
 }
@@ -90,25 +106,28 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
   '/_app/works': typeof AppWorksRoute
   '/_app/': typeof AppIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/works' | '/'
+  fullPaths: '' | '/login' | '/works' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/works' | '/'
-  id: '__root__' | '/_app' | '/_app/works' | '/_app/'
+  to: '/login' | '/works' | '/'
+  id: '__root__' | '/_app' | '/login' | '/_app/works' | '/_app/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   AppRoute: typeof AppRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 
 export const routeTree = rootRoute
@@ -121,7 +140,8 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/_app"
+        "/_app",
+        "/login"
       ]
     },
     "/_app": {
@@ -130,6 +150,9 @@ export const routeTree = rootRoute
         "/_app/works",
         "/_app/"
       ]
+    },
+    "/login": {
+      "filePath": "login.tsx"
     },
     "/_app/works": {
       "filePath": "_app.works.tsx",

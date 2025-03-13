@@ -1,10 +1,6 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from "react";
+import { useQuery } from "@tanstack/react-query";
+import { createContext, useContext, ReactNode } from "react";
+import { fetchAuth } from "../lib/api/fetch";
 
 export interface AuthContextType {
   isAuthenticated: boolean;
@@ -13,18 +9,12 @@ export interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const query = useQuery({
+    queryKey: ["auth"],
+    queryFn: fetchAuth,
+  });
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      setIsAuthenticated(true);
-      return;
-    }
-
-    setIsAuthenticated(false);
-  }, []);
+  const isAuthenticated = !!query.data;
 
   return (
     <AuthContext.Provider value={{ isAuthenticated }}>

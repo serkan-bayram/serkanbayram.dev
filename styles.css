@@ -28,3 +28,8 @@ html {
 
   color-scheme: dark light;
 }
+
+*::selection {
+  background-color: var(--color-accent);
+  color: var(--color-text);
+}

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthContextType } from "../../components/auth-provider";
 
 const TanStackRouterDevtools =
@@ -23,15 +22,11 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootComponent,
 });
 
-const queryClient = new QueryClient();
-
 function RootComponent() {
   return (
     <>
       <div className="bg-background min-h-[100dvh]">
-        <QueryClientProvider client={queryClient}>
-          <Outlet />
-        </QueryClientProvider>
+        <Outlet />
       </div>
       <TanStackRouterDevtools position="bottom-right" />
     </>

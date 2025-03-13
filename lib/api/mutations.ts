@@ -1,11 +1,12 @@
 import createClient from "openapi-fetch";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { paths } from "./schema";
 import { SaveWork, WorkItem } from "../schemas";
-import { useRouter } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 
 export const client = createClient<paths>({
   baseUrl: import.meta.env.VITE_BASE_URL,
+  credentials: "include",
 });
 
 export function useSaveWorkMutation() {
@@ -15,8 +16,8 @@ export function useSaveWorkMutation() {
     onSuccess: () => {
       router.invalidate();
     },
-    mutationFn: async (work: SaveWork) => {
-      const { data, error } = await client.POST("/api/Works", {
+    mutationFn: (work: SaveWork) =>
+      client.POST("/api/Works", {
         body: {
           name: work.workName,
           description: work.workDescription,
@@ -27,8 +28,7 @@ export function useSaveWorkMutation() {
 
           repoLinks: work.workRepos,
         },
-      });
-    },
+      }),
   });
 }
 
@@ -39,17 +39,14 @@ export function useDeleteWorkMutation() {
     onSuccess: () => {
       router.invalidate();
     },
-    mutationFn: async (workId: WorkItem["id"]) => {
-      const { data, error } = await client.DELETE("/api/Works/{id}", {
+    mutationFn: async (workId: WorkItem["id"]) =>
+      client.DELETE("/api/Works/{id}", {
         params: {
           path: {
             id: workId,
           },
         },
-      });
-
-      console.log(data, error);
-    },
+      }),
   });
 }
 
@@ -66,8 +63,8 @@ export function useUpdateWorkMutation() {
     }: {
       work: SaveWork;
       workId: WorkItem["id"];
-    }) => {
-      const { data, error } = await client.PUT("/api/Works/id", {
+    }) =>
+      client.PUT("/api/Works/id", {
         params: {
           query: {
             id: workId,
@@ -83,9 +80,29 @@ export function useUpdateWorkMutation() {
 
           repoLinks: work.workRepos,
         },
+      }),
+  });
+}
+
+export function useLoginMutation() {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  return useMutation({
+    onSuccess: async () => {
+      await router.invalidate();
+      await queryClient.invalidateQueries({ queryKey: ["auth"] });
+      navigate({ to: "/" });
+    },
+    mutationFn: async (password: string) => {
+      const { response } = await client.POST("/api/Auth/login", {
+        body: {
+          password: password,
+        },
       });
 
-      console.log(data, error);
+      if (!response.ok) throw new Error("Unauthorized");
     },
   });
 }
