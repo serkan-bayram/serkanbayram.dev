@@ -22,39 +22,10 @@ export function WorkDialog({
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) {
-  const saveMutation = useSaveWorkMutation();
-  const updateMutation = useUpdateWorkMutation();
-  const deleteWorkMutation = useDeleteWorkMutation();
-
-  const isPending = saveMutation.isPending || updateMutation.isPending;
-
-  const form = useAppForm({
-    defaultValues: getDefaultValues(workItem),
-    validators: {
-      onSubmit: saveWorkSchema,
-      onChange: saveWorkSchema,
-    },
-    onSubmit: async ({ value }) => {
-      if (workItem) {
-        updateMutation.mutate(
-          { work: value, workId: workItem.id },
-          {
-            onSuccess: () => {
-              setOpen(false);
-              form.reset();
-            },
-          },
-        );
-      } else {
-        saveMutation.mutate(value, {
-          onSuccess: () => {
-            setOpen(false);
-            form.reset();
-          },
-        });
-      }
-    },
-  });
+  const { form, deleteMutation, isSavePending } = useWorkForm(
+    setOpen,
+    workItem,
+  );
 
   return (
     <Dialog
@@ -181,14 +152,14 @@ export function WorkDialog({
               className="text-danger hover:text-danger-light"
               variant="link"
               onClick={() =>
-                deleteWorkMutation.mutate(workItem.id, {
+                deleteMutation.mutate(workItem.id, {
                   onSuccess: () => {
                     setOpen(false);
                     form.reset();
                   },
                 })
               }
-              disabled={deleteWorkMutation.isPending}
+              disabled={deleteMutation.isPending}
             >
               Delete Work
             </Button>
@@ -198,7 +169,7 @@ export function WorkDialog({
             <form.Button
               className="my-6 ml-auto"
               type="submit"
-              disabled={isPending}
+              disabled={isSavePending}
             >
               Save
             </form.Button>
@@ -207,6 +178,51 @@ export function WorkDialog({
       </form>
     </Dialog>
   );
+}
+
+function useWorkForm(
+  setOpen: Dispatch<SetStateAction<boolean>>,
+  workItem?: WorkItem,
+) {
+  const saveMutation = useSaveWorkMutation();
+  const updateMutation = useUpdateWorkMutation();
+  const deleteMutation = useDeleteWorkMutation();
+
+  const isPending = saveMutation.isPending || updateMutation.isPending;
+
+  const form = useAppForm({
+    defaultValues: getDefaultValues(workItem),
+    validators: {
+      onSubmit: saveWorkSchema,
+      onChange: saveWorkSchema,
+    },
+    onSubmit: async ({ value }) => {
+      if (workItem) {
+        updateMutation.mutate(
+          { work: value, workId: workItem.id },
+          {
+            onSuccess: () => {
+              setOpen(false);
+              form.reset();
+            },
+          },
+        );
+      } else {
+        saveMutation.mutate(value, {
+          onSuccess: () => {
+            setOpen(false);
+            form.reset();
+          },
+        });
+      }
+    },
+  });
+
+  return {
+    deleteMutation: deleteMutation,
+    isSavePending: isPending,
+    form: form,
+  };
 }
 
 function getDefaultValues(workItem?: WorkItem) {
