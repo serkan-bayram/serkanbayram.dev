@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "../lib/cn";
 
 export type Tech = {
@@ -9,18 +9,32 @@ export type Tech = {
 };
 
 export function Techs({ techs, text }: { techs: Tech[]; text: string }) {
-  const [showTechs, setShowTechs] = useState(false);
+  const [mouseOver, setMouseOver] = useState(false);
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (!mouseOver) {
+      setShow(false);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setShow(true);
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [mouseOver]);
 
   return (
     <span
-      onMouseOver={() => setShowTechs(true)}
+      onMouseOver={() => setMouseOver(true)}
+      onMouseOut={() => setMouseOver(false)}
       className="text-accent-light relative cursor-default"
     >
       {text}
       <AnimatePresence>
-        {showTechs && (
+        {show && (
           <motion.div
-            onMouseLeave={() => setShowTechs(false)}
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
