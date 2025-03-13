@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Button } from "../../components/button";
 import { PlusCircleIcon } from "lucide-react";
 import { useAuth } from "../../components/auth-provider";
+import { Error, Info } from "../../components/info";
 
 export const Route = createFileRoute("/_app/works")({
   loader: () => fetchWorks(),
@@ -13,7 +14,7 @@ export const Route = createFileRoute("/_app/works")({
 });
 
 function RouteComponent() {
-  const works = Route.useLoaderData();
+  const { data: works, error } = Route.useLoaderData();
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -35,9 +36,11 @@ function RouteComponent() {
         </div>
       )}
 
-      {works.map((work) => (
-        <WorkItem key={work.id} workItem={work} />
-      ))}
+      {works && works.map((work) => <WorkItem key={work.id} workItem={work} />)}
+
+      {!works?.length && <Info className="mx-auto" text="No works found" />}
+
+      {error && <Error className="mx-auto" text={error} />}
     </div>
   );
 }
