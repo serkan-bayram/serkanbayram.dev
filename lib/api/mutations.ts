@@ -5,7 +5,7 @@ import { SaveWork, WorkItem } from "../schemas";
 import { useNavigate, useRouter } from "@tanstack/react-router";
 
 export const client = createClient<paths>({
-  baseUrl: import.meta.env.VITE_BASE_URL,
+  baseUrl: import.meta.env.VITE_BACKEND_URL,
   credentials: "include",
 });
 

@@ -12,7 +12,7 @@ export function OpeningText() {
   return (
     <p className="font-default">
       Hello there! I like creating websites using{" "}
-      <Techs text="several technologies" techs={techs} />. I built this website
+      <Techs text="several technologies." techs={techs} /> I built this website
       to try some of the cool stuff I see on the internet.
     </p>
   );
