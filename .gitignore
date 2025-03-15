@@ -17,8 +17,6 @@ dist/
 !.vscode/extensions.json
 .idea
 
-public/
-
 lib/api/schema.d.ts
 
 routeTree.gen.ts

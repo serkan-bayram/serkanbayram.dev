@@ -1,15 +1,27 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, HeadContent } from "@tanstack/react-router";
 import { GithubSvg } from "../../components/svg/github-svg";
 import { LinkedinSvg } from "../../components/svg/linkedin-svg";
 import { OpeningText } from "../../components/opening-text";
 
 export const Route = createFileRoute("/_app/")({
   component: RouteComponent,
+  head: () => ({
+    meta: [
+      {
+        name: "Home",
+        content: "Information about serkanbayram.dev",
+      },
+      {
+        title: "Home - Serkan Bayram",
+      },
+    ],
+  }),
 });
 
 function RouteComponent() {
   return (
     <div className="flex">
+      <HeadContent />
       <div className="flex flex-col justify-between">
         <div>
           <div className="font-default font-bold">Serkan Bayram</div>

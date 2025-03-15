@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, HeadContent, Outlet } from "@tanstack/react-router";
 import { fetchWorks } from "../../lib/api/fetch";
 import { WorkItem } from "../../components/works/work-item";
 import { WorkDialog } from "../../components/works/work-action-dialog";
@@ -11,6 +11,17 @@ import { Error, Info } from "../../components/info";
 export const Route = createFileRoute("/_app/works")({
   loader: () => fetchWorks(),
   component: RouteComponent,
+  head: () => ({
+    meta: [
+      {
+        name: "Works",
+        content: "Projects that built by Serkan Bayram",
+      },
+      {
+        title: "Works - Serkan Bayram",
+      },
+    ],
+  }),
 });
 
 function RouteComponent() {
@@ -22,6 +33,7 @@ function RouteComponent() {
 
   return (
     <div className="mb-16 flex flex-col gap-y-14">
+      <HeadContent />
       <h1 className="mx-auto p-12 pb-4 text-4xl font-extrabold">
         Things I Built
       </h1>
