@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Geist";
+  font-weight: 400, 500, 600, 700;
+  src:
+    url("public/fonts/Geist.woff2") format("woff2"),
+    url("public/fonts/Geist.ttf") format("ttf");
+}
+
 @theme {
   --font-default: "Geist", sans-serif;
 
