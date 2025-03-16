@@ -28,10 +28,18 @@ function RouteComponent() {
           <OpeningText />
         </div>
         <div className="flex items-center gap-x-2 self-end">
-          <a href="https://github.com/serkan-bayram" target="_blank">
+          <a
+            aria-label="See my GitHub account"
+            href="https://github.com/serkan-bayram"
+            target="_blank"
+          >
             <GithubSvg width={32} height={32} />
           </a>
-          <a href="https://www.linkedin.com/in/serkanbayram1" target="_blank">
+          <a
+            aria-label="See my LinkedIn account"
+            href="https://www.linkedin.com/in/serkanbayram1"
+            target="_blank"
+          >
             <LinkedinSvg width={32} height={32} />
           </a>
         </div>

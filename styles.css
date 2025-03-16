@@ -6,6 +6,7 @@
   src:
     url("public/fonts/Geist.woff2") format("woff2"),
     url("public/fonts/Geist.ttf") format("ttf");
+  font-display: swap;
 }
 
 @theme {

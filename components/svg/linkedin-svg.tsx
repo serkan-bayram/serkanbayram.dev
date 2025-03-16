@@ -5,6 +5,12 @@ export type Svg = {
 
 export function LinkedinSvg({ width, height }: Svg) {
   return (
-    <img loading="lazy" src="/linkedin.svg" width={width} height={height} />
+    <img
+      alt="LinkedIn Icon"
+      loading="lazy"
+      src="/linkedin.svg"
+      width={width}
+      height={height}
+    />
   );
 }
