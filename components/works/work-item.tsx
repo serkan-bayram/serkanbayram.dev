@@ -45,7 +45,7 @@ export function WorkItem({ workItem }: { workItem: WorkItem }) {
         <div className="flex gap-x-2">
           {repoLinks.map((repoLink, index) => (
             <a key={index} target="_blank" href={repoLink}>
-              <GithubSvg fill="white" width={30} height={30} />
+              <GithubSvg width={30} height={30} />
             </a>
           ))}
         </div>

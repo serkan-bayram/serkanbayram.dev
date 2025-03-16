@@ -21,12 +21,16 @@ export async function fetchWorks(): Promise<APIResponse<WorkItem>> {
 }
 
 export async function fetchAuth(): Promise<boolean> {
-  // TODO: Why this error says it's undefined when 401 comes
-  const { response } = await client.GET("/api/Auth/check");
+  try {
+    // TODO: Why this error says it's undefined when 401 comes
+    const { response } = await client.GET("/api/Auth/check");
 
-  if (!response.ok) {
+    if (!response.ok) {
+      return false;
+    }
+
+    return true;
+  } catch (error) {
     return false;
   }
-
-  return true;
 }

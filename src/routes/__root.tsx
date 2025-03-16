@@ -32,7 +32,3 @@ function RootComponent() {
     </>
   );
 }
-
-console.warn(
-  "DO NOT FORGET: You need to change npm get-openapi %BASE_URL% to $BASE_URL to make it work in Linux. Also you need to set BASE_URL as variable in terminal.",
-);
