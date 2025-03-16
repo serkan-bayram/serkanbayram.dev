@@ -23,10 +23,8 @@ export function FileInput({
         "bg-background outline-background/70 flex h-36 w-full items-center justify-center rounded-lg outline-3 outline-dashed file:hidden",
         containerClassName,
       )}
-      htmlFor={field.name}
     >
       <input
-        id={field.name}
         className={cn("hidden", className)}
         type="file"
         onChange={async (e) => {

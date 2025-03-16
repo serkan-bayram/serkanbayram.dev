@@ -11,6 +11,7 @@ import {
 } from "../../lib/api/mutations";
 import { cn } from "../../lib/cn";
 import { saveWorkSchema, WorkItem } from "../../lib/schemas";
+import { useStore } from "@tanstack/react-form";
 
 // If workItem is defined, we are doing an update
 export function WorkDialog({
@@ -135,12 +136,28 @@ export function WorkDialog({
             )}
           </form.Field>
 
-          <form.AppField
-            name="workImage"
-            children={(field) => (
-              <field.FileInput
-                accept="image/*"
-                containerClassName="col-span-2"
+          <form.Subscribe
+            selector={(state) => state.values.workImage}
+            children={(workImage) => (
+              <form.AppField
+                name="workImage"
+                children={(field) => (
+                  <>
+                    <field.FileInput
+                      accept="image/*"
+                      containerClassName="col-span-2"
+                    />
+                    {workImage && (
+                      <Button
+                        className="text-danger hover:text-danger-light"
+                        variant="link"
+                        onClick={() => field.setValue("")}
+                      >
+                        Remove Image
+                      </Button>
+                    )}
+                  </>
+                )}
               />
             )}
           />
@@ -241,8 +258,8 @@ function getDefaultValues(workItem?: WorkItem) {
 
   return {
     workName: "",
-    workLink: "",
     workDescription: "",
+    workLink: "",
     workImage: "",
     workStatus: "",
     workRepos: [""] as string[],

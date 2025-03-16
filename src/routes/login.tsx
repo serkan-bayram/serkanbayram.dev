@@ -40,6 +40,7 @@ function RouteComponent() {
               <field.TextInput
                 className="bg-background-light"
                 label="Password"
+                type="password"
               />
             </>
           )}
