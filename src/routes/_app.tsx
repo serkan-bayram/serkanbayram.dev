@@ -35,6 +35,7 @@ function RouteComponent() {
               className="hover:text-accent-light data-[status=active]:text-accent data-[status=active]:hover:text-accent-light relative transition-colors ease-in-out"
               to="/works"
               viewTransition
+              preload="intent"
             >
               works
             </Link>
