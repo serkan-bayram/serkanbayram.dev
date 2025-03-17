@@ -36,6 +36,7 @@ export function WorkItem({ workItem }: { workItem: WorkItem }) {
 
       {imageSource && (
         <img
+          alt={`Screenshot of ${workItem.name}`}
           src={`${import.meta.env.VITE_BACKEND_URL}/images/${imageSource}`}
           className="border-background-light mx-auto mt-8 rounded-lg border"
         />

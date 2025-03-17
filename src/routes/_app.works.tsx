@@ -16,7 +16,10 @@ export const Route = createFileRoute("/_app/works")({
       {
         name: "Works",
         content: "Projects that built by Serkan Bayram",
+        description:
+          "Discover my projects, including TypeRace – a fun typing race game with friends, a simple browser-based video editor using FFmpeg WASM, and KVDB – a searchable database for Kurtlar Vadisi quotes. Explore, try out, and contribute on GitHub!",
       },
+
       {
         title: "Works - Serkan Bayram",
       },
