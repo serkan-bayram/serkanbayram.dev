@@ -9,17 +9,25 @@ import { useAuth } from "../../components/auth-provider";
 import { Error, Info } from "../../components/info";
 
 export const Route = createFileRoute("/_app/works")({
-  loader: () => fetchWorks(),
+  loader: async () => {
+    const works = await fetchWorks();
+
+    // Preload images
+    works.data?.forEach((work) => {
+      const img = new Image();
+
+      img.src = `${import.meta.env.VITE_BASE_URL}/images/${work.imageSource}`;
+    });
+
+    return works;
+  },
   component: RouteComponent,
   head: () => ({
     meta: [
       {
-        name: "Works",
+        name: "description",
         content: "Projects that built by Serkan Bayram",
-        description:
-          "Discover my projects, including TypeRace – a fun typing race game with friends, a simple browser-based video editor using FFmpeg WASM, and KVDB – a searchable database for Kurtlar Vadisi quotes. Explore, try out, and contribute on GitHub!",
       },
-
       {
         title: "Works - Serkan Bayram",
       },
