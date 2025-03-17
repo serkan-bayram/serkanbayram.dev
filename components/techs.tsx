@@ -29,7 +29,7 @@ export function Techs({ techs, text }: { techs: Tech[]; text: string }) {
     <span
       onMouseOver={() => setMouseOver(true)}
       onMouseOut={() => setMouseOver(false)}
-      className="text-accent-light relative cursor-default"
+      className="text-accent-light relative cursor-default text-nowrap"
     >
       {text}
       <AnimatePresence>
@@ -38,7 +38,7 @@ export function Techs({ techs, text }: { techs: Tech[]; text: string }) {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
-            className="bg-background-light absolute top-1/2 left-4 flex w-64 -translate-y-1/2 flex-col gap-4 rounded-2xl p-4 px-3 sm:left-1/2 sm:-translate-x-1/2"
+            className="bg-background-light absolute top-1/2 left-4 flex -translate-y-1/2 flex-col gap-4 rounded-2xl p-4 px-3 sm:left-1/2 sm:w-64 sm:-translate-x-1/2"
           >
             <motion.div
               className="text-text"
