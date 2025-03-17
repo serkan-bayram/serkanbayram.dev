@@ -12,11 +12,11 @@ export const Route = createFileRoute("/_app/works")({
   loader: async () => {
     const works = await fetchWorks();
 
-    // Preload images
+    // Preload images TODO: Is this working?
     works.data?.forEach((work) => {
       const img = new Image();
 
-      img.src = `${import.meta.env.VITE_BASE_URL}/images/${work.imageSource}`;
+      img.src = `${import.meta.env.VITE_BACKEND_URL}/images/${work.imageSource}`;
     });
 
     return works;
@@ -45,7 +45,7 @@ function RouteComponent() {
   return (
     <div className="mb-16 flex flex-col gap-y-14">
       <HeadContent />
-      <h1 className="mx-auto p-12 pb-4 text-4xl font-extrabold">
+      <h1 className="mx-auto pt-4 pb-4 text-4xl font-extrabold sm:p-12">
         Things I Built
       </h1>
 
