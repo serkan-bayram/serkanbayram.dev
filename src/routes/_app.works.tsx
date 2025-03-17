@@ -9,18 +9,7 @@ import { useAuth } from "../../components/auth-provider";
 import { Error, Info } from "../../components/info";
 
 export const Route = createFileRoute("/_app/works")({
-  loader: async () => {
-    const works = await fetchWorks();
-
-    // Preload images TODO: Is this working?
-    works.data?.forEach((work) => {
-      const img = new Image();
-
-      img.src = `${import.meta.env.VITE_BACKEND_URL}/images/${work.imageSource}`;
-    });
-
-    return works;
-  },
+  loader: fetchWorks,
   component: RouteComponent,
   head: () => ({
     meta: [
