@@ -2,15 +2,14 @@ import { createFileRoute, HeadContent } from "@tanstack/react-router";
 import { fetchWorks } from "../../lib/api/fetch";
 import { WorkItem } from "../../components/works/work-item";
 import { WorkDialog } from "../../components/works/work-action-dialog";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { Button } from "../../components/button";
 import { PlusCircleIcon } from "lucide-react";
 import { useAuth } from "../../components/auth-provider";
 import { Error, Info } from "../../components/info";
+import { Spinner } from "../../components/spinner";
 
 export const Route = createFileRoute("/_app/works")({
-  loader: fetchWorks,
-  component: RouteComponent,
   head: () => ({
     meta: [
       {
@@ -22,22 +21,37 @@ export const Route = createFileRoute("/_app/works")({
       },
     ],
   }),
+  loader: fetchWorks,
+  component: RouteComponent,
+  pendingComponent: () => (
+    <Layout>
+      <Spinner />
+    </Layout>
+  ),
+  errorComponent: ({ error }) => (
+    <Layout>
+      <Error className="mx-auto" text={error.message} />
+    </Layout>
+  ),
 });
 
 function RouteComponent() {
-  const { data: works, error } = Route.useLoaderData();
+  const works = Route.useLoaderData();
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const { isAuthenticated } = useAuth();
 
-  return (
-    <div className="mb-16 flex flex-col gap-y-14">
-      <HeadContent />
-      <h1 className="mx-auto pt-4 pb-4 text-4xl font-extrabold sm:p-12">
-        Things I Built
-      </h1>
+  if (!works?.length) {
+    return (
+      <Layout>
+        <Info className="mx-auto" text="No works found" />
+      </Layout>
+    );
+  }
 
+  return (
+    <Layout>
       <WorkDialog open={isDialogOpen} setOpen={setIsDialogOpen} />
 
       {isAuthenticated && (
@@ -48,11 +62,22 @@ function RouteComponent() {
         </div>
       )}
 
-      {works && works.map((work) => <WorkItem key={work.id} workItem={work} />)}
+      {works.map((work) => (
+        <WorkItem key={work.id} workItem={work} />
+      ))}
+    </Layout>
+  );
+}
 
-      {!works?.length && <Info className="mx-auto" text="No works found" />}
+function Layout({ children }: { children: ReactNode }) {
+  return (
+    <div className="mb-16 flex flex-col items-center gap-y-14">
+      <HeadContent />
+      <h1 className="mx-auto pt-4 pb-4 text-center text-4xl font-extrabold sm:p-12">
+        Things I Built
+      </h1>
 
-      {error && <Error className="mx-auto" text={error} />}
+      {children}
     </div>
   );
 }

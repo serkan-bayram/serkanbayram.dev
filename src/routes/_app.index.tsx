@@ -29,7 +29,7 @@ function RouteComponent() {
           <div className="font-default font-bold">Serkan Bayram</div>
           <OpeningText />
         </div>
-        <div className="flex items-center gap-x-2 self-end">
+        <div className="mt-4 flex items-center gap-x-2 self-end">
           <a
             aria-label="See my GitHub account"
             href="https://github.com/serkan-bayram"
