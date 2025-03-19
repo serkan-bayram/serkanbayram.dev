@@ -11,7 +11,6 @@ import {
 } from "../../lib/api/mutations";
 import { cn } from "../../lib/cn";
 import { saveWorkSchema, WorkItem } from "../../lib/schemas";
-import { useStore } from "@tanstack/react-form";
 
 // If workItem is defined, we are doing an update
 export function WorkDialog({

@@ -7,9 +7,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 export const router = createRouter({
   routeTree,
   defaultPreload: "intent",
-  context: {
-    auth: undefined!,
-  },
 });
 
 // Register things for typesafety
@@ -26,7 +23,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
     </QueryClientProvider>
   );
 }
