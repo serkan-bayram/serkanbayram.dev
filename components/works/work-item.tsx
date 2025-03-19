@@ -21,7 +21,7 @@ export function WorkItem({ workItem }: { workItem: WorkItem }) {
   const { isAuthenticated } = useAuth();
 
   return (
-    <div className="flex flex-col">
+    <div className="flex w-full flex-col">
       <div className="flex flex-col gap-y-1">
         <WorkHeader name={name} link={link} />
 
@@ -38,7 +38,7 @@ export function WorkItem({ workItem }: { workItem: WorkItem }) {
         <img
           alt={`Screenshot of ${workItem.name}`}
           src={`${import.meta.env.VITE_BACKEND_URL}/images/${imageSource}`}
-          className="border-background-light mx-auto mt-8 w-[900px] rounded-lg border"
+          className="border-background-light mx-auto mt-8 aspect-video w-full rounded-lg border"
         />
       )}
 
