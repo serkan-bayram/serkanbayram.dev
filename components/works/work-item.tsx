@@ -4,7 +4,7 @@ import { GithubSvg } from "../svg/github-svg";
 import { WorkStatus } from "./work-status";
 import { WorkDialog } from "./work-action-dialog";
 import { useState } from "react";
-import { useAuth } from "../auth-provider";
+import { useAuth } from "../../lib/use-auth";
 
 export function WorkItem({ workItem }: { workItem: WorkItem }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);

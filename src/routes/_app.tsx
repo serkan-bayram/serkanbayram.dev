@@ -6,8 +6,8 @@ import {
 } from "@tanstack/react-router";
 import { Button } from "../../components/button";
 import { client } from "../../lib/api/mutations";
-import { useAuth } from "../../components/auth-provider";
 import { useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "../../lib/use-auth";
 
 export const Route = createFileRoute("/_app")({
   component: RouteComponent,

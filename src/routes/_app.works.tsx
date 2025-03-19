@@ -5,9 +5,9 @@ import { WorkDialog } from "../../components/works/work-action-dialog";
 import { ReactNode, useState } from "react";
 import { Button } from "../../components/button";
 import { PlusCircleIcon } from "lucide-react";
-import { useAuth } from "../../components/auth-provider";
 import { Error, Info } from "../../components/info";
 import { Spinner } from "../../components/spinner";
+import { useAuth } from "../../lib/use-auth";
 
 export const Route = createFileRoute("/_app/works")({
   head: () => ({
@@ -42,7 +42,7 @@ function RouteComponent() {
 
   const { isAuthenticated } = useAuth();
 
-  if (true) {
+  if (!works?.length) {
     return (
       <Layout>
         {isAuthenticated && (
