@@ -21,7 +21,7 @@ function RouteComponent() {
 
   return (
     <div className="flex h-full w-full justify-center">
-      <div className="h-full p-2 px-4 pt-12 sm:w-2/3 sm:px-0 md:w-1/2">
+      <div className="h-full w-full p-2 px-4 pt-12 sm:w-2/3 sm:px-0 md:w-1/2">
         <header className="mb-8 flex items-center justify-between">
           <div className="flex gap-x-3">
             <Link

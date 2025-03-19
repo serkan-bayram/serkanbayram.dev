@@ -42,7 +42,7 @@ function RouteComponent() {
 
   const { isAuthenticated } = useAuth();
 
-  if (!works?.length) {
+  if (true) {
     return (
       <Layout>
         {isAuthenticated && (
