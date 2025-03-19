@@ -8,9 +8,8 @@ export const Route = createFileRoute("/_app/")({
   head: () => ({
     meta: [
       {
-        name: "Home",
-        content: "Information about serkanbayram.dev",
-        description:
+        name: "description",
+        content:
           "Hi, I'm Serkan Bayram! I love building websites with various technologies and experimenting with cool ideas from the internet. Explore my projects and connect with me on GitHub and LinkedIn!",
       },
       {
