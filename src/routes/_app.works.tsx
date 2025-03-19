@@ -45,6 +45,14 @@ function RouteComponent() {
   if (!works?.length) {
     return (
       <Layout>
+        {isAuthenticated && (
+          <div className="mx-auto">
+            <Button Icon={PlusCircleIcon} onClick={() => setIsDialogOpen(true)}>
+              Add Work
+            </Button>
+          </div>
+        )}
+
         <Info className="mx-auto" text="No works found" />
       </Layout>
     );
