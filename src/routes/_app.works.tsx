@@ -38,23 +38,9 @@ export const Route = createFileRoute("/_app/works")({
 function RouteComponent() {
   const works = Route.useLoaderData();
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const { isAuthenticated } = useAuth();
-
-  console.log(isAuthenticated);
-
   if (!works?.length) {
     return (
       <Layout>
-        {isAuthenticated && (
-          <div className="mx-auto">
-            <Button Icon={PlusCircleIcon} onClick={() => setIsDialogOpen(true)}>
-              Add Work
-            </Button>
-          </div>
-        )}
-
         <Info className="mx-auto" text="No works found" />
       </Layout>
     );
@@ -62,6 +48,25 @@ function RouteComponent() {
 
   return (
     <Layout>
+      {works.map((work) => (
+        <WorkItem key={work.id} workItem={work} />
+      ))}
+    </Layout>
+  );
+}
+
+function Layout({ children }: { children: ReactNode }) {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const { isAuthenticated } = useAuth();
+
+  return (
+    <div className="mb-16 flex flex-col items-center gap-y-14">
+      <HeadContent />
+      <h1 className="mx-auto pt-4 pb-4 text-center text-4xl font-extrabold sm:p-12">
+        Things I Built
+      </h1>
+
       <WorkDialog open={isDialogOpen} setOpen={setIsDialogOpen} />
 
       {isAuthenticated && (
@@ -71,21 +76,6 @@ function RouteComponent() {
           </Button>
         </div>
       )}
-
-      {works.map((work) => (
-        <WorkItem key={work.id} workItem={work} />
-      ))}
-    </Layout>
-  );
-}
-
-function Layout({ children }: { children: ReactNode }) {
-  return (
-    <div className="mb-16 flex flex-col items-center gap-y-14">
-      <HeadContent />
-      <h1 className="mx-auto pt-4 pb-4 text-center text-4xl font-extrabold sm:p-12">
-        Things I Built
-      </h1>
 
       {children}
     </div>
