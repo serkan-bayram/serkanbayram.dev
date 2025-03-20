@@ -35,7 +35,15 @@ export function AnimatedHeading({ heading }: { heading: string }) {
                       key={`top-${animationKey}-${wIndex}-${lIndex}`}
                       className="top origin-top"
                       animate={{
-                        transform: ["rotateX(0deg)", "rotateX(90deg)"],
+                        transform: [
+                          "translateY(0px) rotateX(0deg)",
+                          "translateY(-10px) rotateX(90deg)",
+                        ],
+                        filter: [
+                          "blur(0px) brightness(1)",
+                          "blur(1px)",
+                          "blur(3px) brightness(0)",
+                        ],
                       }}
                       transition={{
                         delay: (beforeWordsLength + (lIndex + 1)) * 0.04,
@@ -73,10 +81,14 @@ export function AnimatedHeading({ heading }: { heading: string }) {
                       className="bottom origin-bottom"
                       animate={{
                         transform: ["rotateX(90deg)", "rotateX(0deg)"],
-                        filter: ["blur(3px)", "blur(1px)", "blur(0.2px)"],
+                        filter: [
+                          "blur(3px) brightness(0)",
+                          "blur(1px)",
+                          "blur(0.2px) brightness(1)",
+                        ],
                       }}
                       transition={{
-                        delay: (beforeWordsLength + (lIndex + 1)) * 0.09,
+                        delay: (beforeWordsLength + (lIndex + 1)) * 0.05,
                       }}
                     >
                       {letter}
