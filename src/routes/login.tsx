@@ -27,7 +27,7 @@ function RouteComponent() {
   return (
     <div className="flex min-h-[100dvh] items-center justify-center">
       <form
-        className="flex w-1/4 flex-col gap-4"
+        className="flex flex-col gap-4"
         onSubmit={(e) => {
           e.preventDefault();
           form.handleSubmit();
