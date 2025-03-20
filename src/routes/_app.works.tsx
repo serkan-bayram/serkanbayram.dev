@@ -8,6 +8,7 @@ import { PlusCircleIcon } from "lucide-react";
 import { Error, Info } from "../../components/info";
 import { Spinner } from "../../components/spinner";
 import { useAuth } from "../../lib/use-auth";
+import { AnimatedHeading } from "../../components/animated-heading";
 
 export const Route = createFileRoute("/_app/works")({
   head: () => ({
@@ -63,9 +64,8 @@ function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="mb-16 flex flex-col items-center gap-y-14">
       <HeadContent />
-      <h1 className="mx-auto pt-4 pb-4 text-center text-4xl font-extrabold sm:p-12">
-        Things I Built
-      </h1>
+
+      <AnimatedHeading heading="Things I Built" />
 
       <WorkDialog open={isDialogOpen} setOpen={setIsDialogOpen} />
 
