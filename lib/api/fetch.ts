@@ -25,6 +25,7 @@ export async function fetchAuth(): Promise<boolean> {
 
     return true;
   } catch (error) {
+    console.log("Error on fetchAuth: ", error);
     return false;
   }
 }
