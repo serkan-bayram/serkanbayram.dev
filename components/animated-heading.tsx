@@ -7,6 +7,7 @@ export function AnimatedHeading({ heading }: { heading: string }) {
 
   return (
     <div
+      title="Animation idea belongs to rauno.me"
       className="flex min-h-20 w-full cursor-default items-center justify-center text-center text-4xl font-extrabold"
       onClick={() => setAnimationKey((prev) => prev + 1)}
       onMouseEnter={() => setAnimationKey((prev) => prev + 1)}
