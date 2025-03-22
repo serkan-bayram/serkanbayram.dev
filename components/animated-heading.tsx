@@ -7,13 +7,12 @@ export function AnimatedHeading({ heading }: { heading: string }) {
 
   return (
     <div
-      className="mx-auto cursor-default pt-4 pb-4 text-center text-4xl font-extrabold sm:p-12"
+      className="flex min-h-20 w-full cursor-default items-center justify-center text-center text-4xl font-extrabold"
+      onClick={() => setAnimationKey((prev) => prev + 1)}
       onMouseEnter={() => setAnimationKey((prev) => prev + 1)}
     >
-      <h1 className="opacity-0 select-none">{heading}</h1>
-
-      <div className="relative">
-        <div className="absolute top-0 left-0 flex gap-x-2">
+      <div className="relative flex items-center justify-center">
+        <div className="absolute flex gap-x-2">
           {words.map((word, wIndex) => {
             const letters = word.split("");
 
@@ -58,7 +57,7 @@ export function AnimatedHeading({ heading }: { heading: string }) {
           })}
         </div>
 
-        <div className="absolute top-0 left-0 flex gap-x-2">
+        <div className="absolute flex gap-x-2">
           {words.map((word, wIndex) => {
             const letters = word.split("");
 
