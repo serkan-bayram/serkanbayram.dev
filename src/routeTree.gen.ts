@@ -15,6 +15,7 @@ import { Route as LoginImport } from './routes/login'
 import { Route as AppImport } from './routes/_app'
 import { Route as AppIndexImport } from './routes/_app.index'
 import { Route as AppWorksImport } from './routes/_app.works'
+import { Route as AppWritingsCaptchaWithoutJavascriptIndexImport } from './routes/_app.writings/captcha-without-javascript/index'
 
 // Create/Update Routes
 
@@ -40,6 +41,13 @@ const AppWorksRoute = AppWorksImport.update({
   path: '/works',
   getParentRoute: () => AppRoute,
 } as any)
+
+const AppWritingsCaptchaWithoutJavascriptIndexRoute =
+  AppWritingsCaptchaWithoutJavascriptIndexImport.update({
+    id: '/writings/captcha-without-javascript/',
+    path: '/writings/captcha-without-javascript/',
+    getParentRoute: () => AppRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -73,6 +81,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexImport
       parentRoute: typeof AppImport
     }
+    '/_app/writings/captcha-without-javascript/': {
+      id: '/_app/writings/captcha-without-javascript/'
+      path: '/writings/captcha-without-javascript'
+      fullPath: '/writings/captcha-without-javascript'
+      preLoaderRoute: typeof AppWritingsCaptchaWithoutJavascriptIndexImport
+      parentRoute: typeof AppImport
+    }
   }
 }
 
@@ -81,11 +96,14 @@ declare module '@tanstack/react-router' {
 interface AppRouteChildren {
   AppWorksRoute: typeof AppWorksRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppWritingsCaptchaWithoutJavascriptIndexRoute: typeof AppWritingsCaptchaWithoutJavascriptIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppWorksRoute: AppWorksRoute,
   AppIndexRoute: AppIndexRoute,
+  AppWritingsCaptchaWithoutJavascriptIndexRoute:
+    AppWritingsCaptchaWithoutJavascriptIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -95,12 +113,14 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/works': typeof AppWorksRoute
   '/': typeof AppIndexRoute
+  '/writings/captcha-without-javascript': typeof AppWritingsCaptchaWithoutJavascriptIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/works': typeof AppWorksRoute
   '/': typeof AppIndexRoute
+  '/writings/captcha-without-javascript': typeof AppWritingsCaptchaWithoutJavascriptIndexRoute
 }
 
 export interface FileRoutesById {
@@ -109,14 +129,26 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/_app/works': typeof AppWorksRoute
   '/_app/': typeof AppIndexRoute
+  '/_app/writings/captcha-without-javascript/': typeof AppWritingsCaptchaWithoutJavascriptIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/login' | '/works' | '/'
+  fullPaths:
+    | ''
+    | '/login'
+    | '/works'
+    | '/'
+    | '/writings/captcha-without-javascript'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/works' | '/'
-  id: '__root__' | '/_app' | '/login' | '/_app/works' | '/_app/'
+  to: '/login' | '/works' | '/' | '/writings/captcha-without-javascript'
+  id:
+    | '__root__'
+    | '/_app'
+    | '/login'
+    | '/_app/works'
+    | '/_app/'
+    | '/_app/writings/captcha-without-javascript/'
   fileRoutesById: FileRoutesById
 }
 
@@ -148,7 +180,8 @@ export const routeTree = rootRoute
       "filePath": "_app.tsx",
       "children": [
         "/_app/works",
-        "/_app/"
+        "/_app/",
+        "/_app/writings/captcha-without-javascript/"
       ]
     },
     "/login": {
@@ -160,6 +193,10 @@ export const routeTree = rootRoute
     },
     "/_app/": {
       "filePath": "_app.index.tsx",
+      "parent": "/_app"
+    },
+    "/_app/writings/captcha-without-javascript/": {
+      "filePath": "_app.writings/captcha-without-javascript/index.tsx",
       "parent": "/_app"
     }
   }
