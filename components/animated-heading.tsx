@@ -9,10 +9,12 @@ export function AnimatedHeading({ heading }: { heading: string }) {
     <div
       title="Animation idea belongs to rauno.me"
       className="flex min-h-20 w-full cursor-default items-center justify-center text-center text-4xl font-extrabold"
-      onClick={() => setAnimationKey((prev) => prev + 1)}
-      onMouseEnter={() => setAnimationKey((prev) => prev + 1)}
     >
-      <div className="relative flex items-center justify-center">
+      <div
+        onClick={() => setAnimationKey((prev) => prev + 1)}
+        onMouseEnter={() => setAnimationKey((prev) => prev + 1)}
+        className="relative flex items-center justify-center"
+      >
         <div className="absolute flex gap-x-2">
           {words.map((word, wIndex) => {
             const letters = word.split("");
