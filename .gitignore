@@ -18,5 +18,3 @@ dist/
 .idea
 
 lib/api/schema.d.ts
-
-routeTree.gen.ts
