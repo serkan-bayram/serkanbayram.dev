@@ -39,6 +39,7 @@ export async function fetchStatus(): Promise<string> {
     return data.status;
   } catch (error) {
     console.log("Error on fetchStatus: ", error);
+
     return "Inactive";
   }
 }

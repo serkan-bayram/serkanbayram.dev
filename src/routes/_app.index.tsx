@@ -7,8 +7,6 @@ import { ActiveStatus } from "@/components/active-status";
 import { fetchStatus } from "@/lib/api/fetch";
 
 export const Route = createFileRoute("/_app/")({
-  loader: fetchStatus,
-  component: RouteComponent,
   head: () => ({
     meta: [
       {
@@ -21,6 +19,12 @@ export const Route = createFileRoute("/_app/")({
       },
     ],
   }),
+  loader: () => {
+    return {
+      statusPromise: fetchStatus(),
+    };
+  },
+  component: RouteComponent,
 });
 
 function RouteComponent() {
