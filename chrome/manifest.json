@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Online Status",
+  "version": "1.0",
+  "description": "Am I on computer?",
+  "permissions": ["scripting", "activeTab"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}

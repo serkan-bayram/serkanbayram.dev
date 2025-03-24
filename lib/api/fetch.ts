@@ -29,3 +29,16 @@ export async function fetchAuth(): Promise<boolean> {
     return false;
   }
 }
+
+export async function fetchStatus(): Promise<string> {
+  try {
+    const { data } = await client.GET("/api/Status");
+
+    if (!data?.status) return "Inactive";
+
+    return data.status;
+  } catch (error) {
+    console.log("Error on fetchStatus: ", error);
+    return "Inactive";
+  }
+}
