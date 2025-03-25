@@ -1,6 +1,6 @@
 import { cn } from "@/lib/cn";
 import { Await, useLoaderData } from "@tanstack/react-router";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useAnimate } from "motion/react";
 import { useState } from "react";
 
 export function ActiveStatus() {
@@ -23,8 +23,26 @@ function Status({ status }: { status: string }) {
 
   const text = isActive ? "I'm on the computer" : status;
 
+  const [scope, animate] = useAnimate();
+
+  const tipboxVariants = {
+    hidden: {
+      width: 0,
+      height: 0,
+      top: 0,
+      opacity: 0,
+    },
+    visible: {
+      width: text.length * 8,
+      height: 24,
+      top: -36,
+      opacity: 1,
+    },
+  };
+
   return (
     <motion.div
+      ref={scope}
       className={cn(
         "relative flex h-2 w-2 items-center justify-center rounded-full bg-red-600",
         {
@@ -34,55 +52,53 @@ function Status({ status }: { status: string }) {
     >
       <div
         onClick={() => setHover(true)}
-        onMouseOver={() => setHover(true)}
+        onMouseOver={() => {
+          setHover(true);
+        }}
         onMouseLeave={() => {
           setHover(false);
         }}
         className="absolute z-50 h-10 w-10 rounded-full bg-red-200 opacity-0"
       ></div>
 
-      {isActive && (
-        <motion.div
-          initial={{ opacity: 1 }}
-          animate={{ scale: 3, opacity: 0 }}
-          transition={{
-            ease: "easeInOut",
-            duration: 1,
-            repeat: Infinity,
-            delay: 1.6,
-          }}
-          className="absolute h-full w-full rounded-full bg-green-600/70"
-        ></motion.div>
-      )}
+      <motion.div
+        animate={{ scale: 3, opacity: 0 }}
+        transition={{
+          ease: "easeInOut",
+          duration: 1,
+          repeat: Infinity,
+          delay: 1.6,
+        }}
+        className={cn(
+          "absolute h-full w-full rounded-full bg-green-600/70 opacity-100",
+          {
+            "opacity-0": !isActive,
+          },
+        )}
+      ></motion.div>
 
       <AnimatePresence>
         {hover && (
           <motion.div
-            initial={{
-              width: 0,
-              height: 0,
-              top: 0,
-              opacity: 0,
-            }}
-            animate={{
-              width: text.length * 8,
-              height: 24,
-              top: -36,
-              opacity: 1,
-            }}
-            exit={{
-              width: 0,
-              height: 0,
-              top: 0,
-              opacity: 0,
-            }}
+            variants={tipboxVariants}
+            initial={"hidden"}
+            animate={"visible"}
+            exit={"hidden"}
             transition={{
-              type: "spring",
-              bounce: 0.2,
+              ease: "easeInOut",
+              duration: 0.3,
             }}
+            onAnimationComplete={() => animate("#status-text", { opacity: 1 })}
             className="bg-background-light absolute left-1/2 flex -translate-x-1/2 items-center justify-center rounded-md px-2 py-1 text-sm font-normal text-nowrap"
           >
-            <motion.div>{text}</motion.div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.1 }}
+              id="status-text"
+            >
+              {text}
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
