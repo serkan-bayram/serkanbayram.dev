@@ -62,20 +62,17 @@ function Status({ status }: { status: string }) {
       ></div>
 
       <motion.div
+        initial={{ scale: 0, opacity: 1 }}
         animate={{ scale: 3, opacity: 0 }}
-        exit={{ scale: 3, opacity: 0 }}
         transition={{
           ease: "easeInOut",
           duration: 1,
           repeat: Infinity,
           delay: 1.6,
         }}
-        className={cn(
-          "absolute h-full w-full rounded-full bg-green-600/70 opacity-100",
-          {
-            "opacity-0": !isActive,
-          },
-        )}
+        className={cn("absolute h-full w-full rounded-full bg-green-600/70", {
+          "opacity-0": !isActive,
+        })}
       ></motion.div>
 
       <AnimatePresence>
