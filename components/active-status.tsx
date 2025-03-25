@@ -63,6 +63,7 @@ function Status({ status }: { status: string }) {
 
       <motion.div
         animate={{ scale: 3, opacity: 0 }}
+        exit={{ scale: 3, opacity: 0 }}
         transition={{
           ease: "easeInOut",
           duration: 1,
