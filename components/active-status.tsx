@@ -61,19 +61,19 @@ function Status({ status }: { status: string }) {
         className="absolute z-50 h-10 w-10 rounded-full bg-red-200 opacity-0"
       ></div>
 
-      <motion.div
-        initial={{ scale: 0, opacity: 1 }}
-        animate={{ scale: 7, opacity: 0 }}
-        transition={{
-          ease: "easeInOut",
-          duration: 1,
-          repeat: Infinity,
-          delay: 1.6,
-        }}
-        className={cn("absolute h-1 w-1 rounded-full bg-green-600/70", {
-          "opacity-0": !isActive,
-        })}
-      ></motion.div>
+      {isActive && (
+        <motion.div
+          initial={{ scale: 0, opacity: 1 }}
+          animate={{ scale: 3, opacity: 0 }}
+          transition={{
+            duration: 1,
+            repeat: Infinity,
+            delay: 1.6,
+          }}
+          // hidden sm:block because this pulse effect has weird flickering issues that happens time to time, it happens all the time on mobile though
+          className="absolute hidden h-full w-full rounded-full bg-green-600/70 sm:block"
+        />
+      )}
 
       <AnimatePresence>
         {hover && (
