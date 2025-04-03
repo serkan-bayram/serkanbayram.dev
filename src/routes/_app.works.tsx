@@ -15,7 +15,8 @@ export const Route = createFileRoute("/_app/works")({
     meta: [
       {
         name: "description",
-        content: "Projects that built by Serkan Bayram",
+        content:
+          "A collection of projects I’ve built, including web applications, experiments, and open-source contributions.",
       },
       {
         title: "Works - Serkan Bayram",
