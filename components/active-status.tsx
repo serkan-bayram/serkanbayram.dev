@@ -31,7 +31,7 @@ function Status({ status }: { status: string }) {
       )}
 
       <div className="group absolute top-1/2 left-1/2 h-6 w-12 -translate-x-1/2 -translate-y-1/2">
-        <div className="bg-background-light absolute -top-7 left-1/2 flex w-fit -translate-x-1/2 items-center justify-center rounded-md px-2 py-1 text-sm font-normal text-nowrap opacity-0 transition-opacity ease-in-out group-hover:opacity-100">
+        <div className="bg-background-light pointer-events-none absolute -top-7 left-1/2 flex w-fit -translate-x-1/2 items-center justify-center rounded-md px-2 py-1 text-sm font-normal text-nowrap opacity-0 transition-opacity ease-in-out group-hover:pointer-events-auto group-hover:opacity-100">
           {text}
         </div>
       </div>
