@@ -41,3 +41,29 @@ html {
   background-color: var(--color-accent);
   color: var(--color-text);
 }
+
+.status-indicator__pulse {
+  animation:
+    scale-up 1.5s infinite,
+    fade-out 1.5s infinite;
+}
+
+@keyframes scale-up {
+  from {
+    scale: 1;
+  }
+
+  to {
+    scale: 3;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
