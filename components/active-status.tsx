@@ -20,7 +20,7 @@ function Status({ status }: { status: string }) {
 
   return (
     <div
-      role="my-status"
+      role="status"
       aria-label={text}
       className={cn("bg-danger relative h-2 w-2 rounded-full", {
         "bg-green-600": isActive,
