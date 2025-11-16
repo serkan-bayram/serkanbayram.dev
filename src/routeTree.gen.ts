@@ -11,19 +11,11 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as LoginImport } from './routes/login'
 import { Route as AppImport } from './routes/_app'
 import { Route as AppIndexImport } from './routes/_app.index'
 import { Route as AppWorksImport } from './routes/_app.works'
-import { Route as AppWritingsCaptchaWithoutJavascriptIndexImport } from './routes/_app.writings/captcha-without-javascript/index'
 
 // Create/Update Routes
-
-const LoginRoute = LoginImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const AppRoute = AppImport.update({
   id: '/_app',
@@ -42,13 +34,6 @@ const AppWorksRoute = AppWorksImport.update({
   getParentRoute: () => AppRoute,
 } as any)
 
-const AppWritingsCaptchaWithoutJavascriptIndexRoute =
-  AppWritingsCaptchaWithoutJavascriptIndexImport.update({
-    id: '/writings/captcha-without-javascript/',
-    path: '/writings/captcha-without-javascript/',
-    getParentRoute: () => AppRoute,
-  } as any)
-
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -58,13 +43,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AppImport
-      parentRoute: typeof rootRoute
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
     '/_app/works': {
@@ -81,13 +59,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexImport
       parentRoute: typeof AppImport
     }
-    '/_app/writings/captcha-without-javascript/': {
-      id: '/_app/writings/captcha-without-javascript/'
-      path: '/writings/captcha-without-javascript'
-      fullPath: '/writings/captcha-without-javascript'
-      preLoaderRoute: typeof AppWritingsCaptchaWithoutJavascriptIndexImport
-      parentRoute: typeof AppImport
-    }
   }
 }
 
@@ -96,70 +67,48 @@ declare module '@tanstack/react-router' {
 interface AppRouteChildren {
   AppWorksRoute: typeof AppWorksRoute
   AppIndexRoute: typeof AppIndexRoute
-  AppWritingsCaptchaWithoutJavascriptIndexRoute: typeof AppWritingsCaptchaWithoutJavascriptIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppWorksRoute: AppWorksRoute,
   AppIndexRoute: AppIndexRoute,
-  AppWritingsCaptchaWithoutJavascriptIndexRoute:
-    AppWritingsCaptchaWithoutJavascriptIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 export interface FileRoutesByFullPath {
   '': typeof AppRouteWithChildren
-  '/login': typeof LoginRoute
   '/works': typeof AppWorksRoute
   '/': typeof AppIndexRoute
-  '/writings/captcha-without-javascript': typeof AppWritingsCaptchaWithoutJavascriptIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/login': typeof LoginRoute
   '/works': typeof AppWorksRoute
   '/': typeof AppIndexRoute
-  '/writings/captcha-without-javascript': typeof AppWritingsCaptchaWithoutJavascriptIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_app': typeof AppRouteWithChildren
-  '/login': typeof LoginRoute
   '/_app/works': typeof AppWorksRoute
   '/_app/': typeof AppIndexRoute
-  '/_app/writings/captcha-without-javascript/': typeof AppWritingsCaptchaWithoutJavascriptIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | ''
-    | '/login'
-    | '/works'
-    | '/'
-    | '/writings/captcha-without-javascript'
+  fullPaths: '' | '/works' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/works' | '/' | '/writings/captcha-without-javascript'
-  id:
-    | '__root__'
-    | '/_app'
-    | '/login'
-    | '/_app/works'
-    | '/_app/'
-    | '/_app/writings/captcha-without-javascript/'
+  to: '/works' | '/'
+  id: '__root__' | '/_app' | '/_app/works' | '/_app/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   AppRoute: typeof AppRouteWithChildren
-  LoginRoute: typeof LoginRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRouteWithChildren,
-  LoginRoute: LoginRoute,
 }
 
 export const routeTree = rootRoute
@@ -172,20 +121,15 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/_app",
-        "/login"
+        "/_app"
       ]
     },
     "/_app": {
       "filePath": "_app.tsx",
       "children": [
         "/_app/works",
-        "/_app/",
-        "/_app/writings/captcha-without-javascript/"
+        "/_app/"
       ]
-    },
-    "/login": {
-      "filePath": "login.tsx"
     },
     "/_app/works": {
       "filePath": "_app.works.tsx",
@@ -193,10 +137,6 @@ export const routeTree = rootRoute
     },
     "/_app/": {
       "filePath": "_app.index.tsx",
-      "parent": "/_app"
-    },
-    "/_app/writings/captcha-without-javascript/": {
-      "filePath": "_app.writings/captcha-without-javascript/index.tsx",
       "parent": "/_app"
     }
   }

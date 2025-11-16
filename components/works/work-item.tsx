@@ -1,14 +1,36 @@
 import { ArrowUpRightIcon } from "lucide-react";
-import type { WorkItem } from "../../lib/schemas";
 import { GithubSvg } from "../svg/github-svg";
 import { WorkStatus } from "./work-status";
-import { WorkDialog } from "./work-action-dialog";
-import { useState } from "react";
-import { useAuth } from "../../lib/use-auth";
+import { z } from "zod";
+
+export const workSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  description: z.string(),
+
+  // TODO: If we can fix undefined | null on backend we can omit this
+  link: z
+    .string()
+    .optional()
+    .nullable()
+    .transform((val) => val ?? undefined),
+  imageSource: z
+    .string()
+    .optional()
+    .nullable()
+    .transform((val) => val ?? undefined),
+  status: z
+    .string()
+    .optional()
+    .nullable()
+    .transform((val) => val ?? undefined),
+
+  repoLinks: z.array(z.string()),
+});
+
+export type WorkItem = z.infer<typeof workSchema>;
 
 export function WorkItem({ workItem }: { workItem: WorkItem }) {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
   const {
     name,
     link,
@@ -18,8 +40,6 @@ export function WorkItem({ workItem }: { workItem: WorkItem }) {
     repoLinks = [],
   } = workItem;
 
-  const { isAuthenticated } = useAuth();
-
   return (
     <div className="flex w-full flex-col">
       <div className="flex flex-col gap-y-1">
@@ -27,12 +47,6 @@ export function WorkItem({ workItem }: { workItem: WorkItem }) {
 
         <p className="max-w-prose">{description}</p>
       </div>
-
-      <WorkDialog
-        open={isDialogOpen}
-        setOpen={setIsDialogOpen}
-        workItem={workItem}
-      />
 
       {imageSource && (
         <img
@@ -50,15 +64,6 @@ export function WorkItem({ workItem }: { workItem: WorkItem }) {
             </a>
           ))}
         </div>
-
-        {isAuthenticated && (
-          <button
-            className="cursor-pointer"
-            onClick={() => setIsDialogOpen(true)}
-          >
-            Edit Work
-          </button>
-        )}
 
         {status && <WorkStatus status={status} />}
       </div>

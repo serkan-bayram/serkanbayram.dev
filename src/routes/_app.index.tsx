@@ -2,9 +2,6 @@ import { createFileRoute, HeadContent } from "@tanstack/react-router";
 import { GithubSvg } from "../../components/svg/github-svg";
 import { LinkedinSvg } from "../../components/svg/linkedin-svg";
 import { OpeningText } from "../../components/opening-text";
-import { WritingsList } from "@/components/writings-list";
-import { ActiveStatus } from "@/components/active-status";
-import { fetchStatus } from "@/lib/api/fetch";
 
 export const Route = createFileRoute("/_app/")({
   head: () => ({
@@ -19,11 +16,7 @@ export const Route = createFileRoute("/_app/")({
       },
     ],
   }),
-  loader: () => {
-    return {
-      statusPromise: fetchStatus(),
-    };
-  },
+
   component: RouteComponent,
 });
 
@@ -35,7 +28,6 @@ function RouteComponent() {
         <div>
           <div className="font-default flex items-center gap-x-3 font-bold">
             Serkan Bayram
-            <ActiveStatus />
           </div>
           <OpeningText />
         </div>
@@ -56,8 +48,6 @@ function RouteComponent() {
           </a>
         </div>
       </div>
-
-      <WritingsList />
     </div>
   );
 }

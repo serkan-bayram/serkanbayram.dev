@@ -1,24 +1,10 @@
-import {
-  createFileRoute,
-  Link,
-  Outlet,
-  useRouter,
-} from "@tanstack/react-router";
-import { Button } from "../../components/button";
-import { client } from "../../lib/api/mutations";
-import { useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "../../lib/use-auth";
+import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_app")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { isAuthenticated } = useAuth();
-
-  const queryClient = useQueryClient();
-  const router = useRouter();
-
   return (
     <div className="flex h-full w-full justify-center">
       <div className="h-full w-full p-2 px-4 pt-12 sm:w-2/3 sm:px-0 md:w-1/2">
@@ -40,19 +26,6 @@ function RouteComponent() {
               works
             </Link>
           </div>
-
-          {isAuthenticated && (
-            <Button
-              onClick={async () => {
-                await client.POST("/api/Auth/logout");
-                await queryClient.invalidateQueries({ queryKey: ["auth"] });
-                router.invalidate();
-              }}
-              variant="link"
-            >
-              Logout
-            </Button>
-          )}
         </header>
 
         <main>
