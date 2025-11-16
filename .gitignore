@@ -1,22 +1,14 @@
-# Local
-.DS_Store
-*.local
-*.log*
-
-# Dist
 node_modules
-dist/
-.vinxi
-.output
-.vercel
-.netlify
+.DS_Store
+dist
+dist-ssr
+*.local
+count.txt
+.env
+.nitro
+.tanstack
 .wrangler
-
-# IDE
-.vscode/*
-!.vscode/extensions.json
-.idea
-
-lib/api/schema.d.ts
-
+.output
+.vinxi
+todos.json
 chrome

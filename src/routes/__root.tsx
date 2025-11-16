@@ -1,29 +1,60 @@
-import * as React from "react";
-import { Outlet, createRootRoute } from "@tanstack/react-router";
+import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { TanStackDevtools } from "@tanstack/react-devtools";
 
-const TanStackRouterDevtools =
-  import.meta.env.MODE === "production"
-    ? () => null // Render nothing in production
-    : React.lazy(() =>
-        // Lazy load in development
-        import("@tanstack/router-devtools").then((res) => ({
-          default: res.TanStackRouterDevtools,
-          // For Embedded Mode
-          // default: res.TanStackRouterDevtoolsPanel
-        })),
-      );
+import appCss from "../../styles.css?url"
 
 export const Route = createRootRoute({
-  component: RootComponent,
+  head: () => ({
+    meta: [
+      {
+        charSet: "utf-8",
+      },
+      {
+        name: "viewport",
+        content: "width=device-width, initial-scale=1",
+      },
+      {
+        title: "Serkan Bayram",
+      },
+    ],
+    links: [
+      {
+        rel: "stylesheet",
+        href: appCss,
+      },
+    ],
+  }),
+
+  shellComponent: RootDocument,
 });
 
-function RootComponent() {
+function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <div className="bg-background min-h-[100dvh]">
-        <Outlet />
-      </div>
-      <TanStackRouterDevtools position="bottom-right" />
-    </>
+    <html lang="tr-TR">
+      <head>
+         <HeadContent />
+
+        <link
+          rel="icon"
+          href="/favicon.ico"
+        ></link>
+      </head>
+      <body className="bg-background">
+        {children}
+        <TanStackDevtools
+          config={{
+            position: "bottom-right",
+          }}
+          plugins={[
+            {
+              name: "Tanstack Router",
+              render: <TanStackRouterDevtoolsPanel />,
+            },
+          ]}
+        />
+        <Scripts />
+      </body>
+    </html>
   );
 }

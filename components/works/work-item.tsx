@@ -1,34 +1,16 @@
 import { ArrowUpRightIcon } from "lucide-react";
 import { GithubSvg } from "../svg/github-svg";
 import { WorkStatus } from "./work-status";
-import { z } from "zod";
 
-export const workSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  description: z.string(),
-
-  // TODO: If we can fix undefined | null on backend we can omit this
-  link: z
-    .string()
-    .optional()
-    .nullable()
-    .transform((val) => val ?? undefined),
-  imageSource: z
-    .string()
-    .optional()
-    .nullable()
-    .transform((val) => val ?? undefined),
-  status: z
-    .string()
-    .optional()
-    .nullable()
-    .transform((val) => val ?? undefined),
-
-  repoLinks: z.array(z.string()),
-});
-
-export type WorkItem = z.infer<typeof workSchema>;
+export type WorkItem = {
+    id: number;
+    name: string;
+    description: string;
+    link: string | undefined;
+    imageSource: string | undefined;
+    status: string | undefined;
+    repoLinks: string[];
+}
 
 export function WorkItem({ workItem }: { workItem: WorkItem }) {
   const {

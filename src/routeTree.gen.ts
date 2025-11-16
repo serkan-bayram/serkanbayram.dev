@@ -8,33 +8,51 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-// Import Routes
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as AppRouteImport } from './routes/_app'
+import { Route as AppIndexRouteImport } from './routes/_app.index'
+import { Route as AppWorksRouteImport } from './routes/_app.works'
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as AppImport } from './routes/_app'
-import { Route as AppIndexImport } from './routes/_app.index'
-import { Route as AppWorksImport } from './routes/_app.works'
-
-// Create/Update Routes
-
-const AppRoute = AppImport.update({
+const AppRoute = AppRouteImport.update({
   id: '/_app',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const AppIndexRoute = AppIndexImport.update({
+const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
-
-const AppWorksRoute = AppWorksImport.update({
+const AppWorksRoute = AppWorksRouteImport.update({
   id: '/works',
   path: '/works',
   getParentRoute: () => AppRoute,
 } as any)
 
-// Populate the FileRoutesByPath interface
+export interface FileRoutesByFullPath {
+  '/works': typeof AppWorksRoute
+  '/': typeof AppIndexRoute
+}
+export interface FileRoutesByTo {
+  '/works': typeof AppWorksRoute
+  '/': typeof AppIndexRoute
+}
+export interface FileRoutesById {
+  __root__: typeof rootRouteImport
+  '/_app': typeof AppRouteWithChildren
+  '/_app/works': typeof AppWorksRoute
+  '/_app/': typeof AppIndexRoute
+}
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/works' | '/'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/works' | '/'
+  id: '__root__' | '/_app' | '/_app/works' | '/_app/'
+  fileRoutesById: FileRoutesById
+}
+export interface RootRouteChildren {
+  AppRoute: typeof AppRouteWithChildren
+}
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
@@ -42,27 +60,25 @@ declare module '@tanstack/react-router' {
       id: '/_app'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof AppImport
-      parentRoute: typeof rootRoute
-    }
-    '/_app/works': {
-      id: '/_app/works'
-      path: '/works'
-      fullPath: '/works'
-      preLoaderRoute: typeof AppWorksImport
-      parentRoute: typeof AppImport
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_app/': {
       id: '/_app/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof AppIndexImport
-      parentRoute: typeof AppImport
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/works': {
+      id: '/_app/works'
+      path: '/works'
+      fullPath: '/works'
+      preLoaderRoute: typeof AppWorksRouteImport
+      parentRoute: typeof AppRoute
     }
   }
 }
-
-// Create and export the route tree
 
 interface AppRouteChildren {
   AppWorksRoute: typeof AppWorksRoute
@@ -76,69 +92,18 @@ const AppRouteChildren: AppRouteChildren = {
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
-export interface FileRoutesByFullPath {
-  '': typeof AppRouteWithChildren
-  '/works': typeof AppWorksRoute
-  '/': typeof AppIndexRoute
-}
-
-export interface FileRoutesByTo {
-  '/works': typeof AppWorksRoute
-  '/': typeof AppIndexRoute
-}
-
-export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/_app': typeof AppRouteWithChildren
-  '/_app/works': typeof AppWorksRoute
-  '/_app/': typeof AppIndexRoute
-}
-
-export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/works' | '/'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/works' | '/'
-  id: '__root__' | '/_app' | '/_app/works' | '/_app/'
-  fileRoutesById: FileRoutesById
-}
-
-export interface RootRouteChildren {
-  AppRoute: typeof AppRouteWithChildren
-}
-
 const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRouteWithChildren,
 }
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/_app"
-      ]
-    },
-    "/_app": {
-      "filePath": "_app.tsx",
-      "children": [
-        "/_app/works",
-        "/_app/"
-      ]
-    },
-    "/_app/works": {
-      "filePath": "_app.works.tsx",
-      "parent": "/_app"
-    },
-    "/_app/": {
-      "filePath": "_app.index.tsx",
-      "parent": "/_app"
-    }
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
   }
 }
-ROUTE_MANIFEST_END */
