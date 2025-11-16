@@ -3,7 +3,6 @@ import { GithubSvg } from "../svg/github-svg";
 import { WorkStatus } from "./work-status";
 
 export type WorkItem = {
-    id: number;
     name: string;
     description: string;
     link: string | undefined;
@@ -33,7 +32,7 @@ export function WorkItem({ workItem }: { workItem: WorkItem }) {
       {imageSource && (
         <img
           alt={`Screenshot of ${workItem.name}`}
-          src={`${import.meta.env.VITE_BACKEND_URL}/images/${imageSource}`}
+          src={`/images/${imageSource}`}
           className="border-background-light mx-auto mt-8 aspect-video w-full rounded-lg border"
         />
       )}
